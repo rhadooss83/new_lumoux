@@ -32,14 +32,14 @@ export default function Contact() {
         >
           <h2 className="text-4xl md:text-6xl font-bold tracking-tighter flex flex-wrap justify-center items-center gap-3 md:gap-4 mb-8">
             <span className="text-zinc-500 dark:text-zinc-400/80 blur-[2px] transition-all duration-700 hover:blur-none hover:text-zinc-900 dark:hover:text-white cursor-default">Ready to bring</span>
-            <span className="relative z-10 px-6 py-2 md:px-8 md:py-4 glow-gradient-border rounded-full text-zinc-900 dark:text-white">
+            <span className="relative z-10 px-6 py-2 md:px-8 md:py-4 bg-white/40 dark:bg-white/10 backdrop-blur-md border border-black/5 dark:border-white/10 rounded-full text-zinc-900 dark:text-white">
               Clarity
             </span>
             <span className="text-zinc-500 dark:text-zinc-400/80 blur-[2px] transition-all duration-700 hover:blur-none hover:text-zinc-900 dark:hover:text-white cursor-default">to your design?</span>
           </h2>
 
-          <div className="p-1 rounded-[2rem] glow-gradient-border mt-8 max-w-2xl mx-auto">
-            <div className="bg-white dark:bg-black rounded-[1.9rem] px-6 py-5 md:px-8 md:py-6 flex items-start gap-4 text-left">
+          <div className="rounded-[2rem] glow-gradient-border mt-8 max-w-2xl mx-auto">
+            <div className="bg-white dark:bg-black rounded-[2rem] px-6 py-5 md:px-8 md:py-6 flex items-start gap-4 text-left">
               <span className="w-2 h-2 mt-2 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.8)] shrink-0"></span>
               <div className="flex flex-col gap-1">
                 <span className="text-zinc-800 dark:text-gray-200 text-sm md:text-base font-medium">
@@ -67,9 +67,9 @@ export default function Contact() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="w-full max-w-3xl p-1 rounded-[2rem] md:rounded-3xl glow-gradient-border mt-8"
+        className="w-full max-w-3xl rounded-[2rem] md:rounded-3xl glow-gradient-border mt-8"
       >
-        <div className="bg-white dark:bg-black rounded-[1.9rem] md:rounded-[1.7rem] p-6 md:p-10 h-full flex flex-col">
+        <div className="bg-white dark:bg-black rounded-[2rem] md:rounded-3xl p-6 md:p-10 h-full flex flex-col">
           <div className="text-zinc-700 dark:text-gray-300 text-base md:text-lg leading-relaxed mb-10 space-y-4 text-center md:text-left">
             <p>
               Contact LumoUX UI/UX design studio. Get in touch with me, Gabi Radu, for web design collaborations, branding projects, or freelance UI/UX work.
@@ -146,10 +146,10 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={isSubmitting || isSubmitted}
-                className={`px-8 py-3 rounded-full text-sm font-semibold transition-all duration-300 ${
+                className={`btn-glow px-8 py-3 rounded-full text-sm font-bold transition-all duration-300 ${
                   isSubmitted 
                     ? "bg-green-500 text-white" 
-                    : "text-zinc-900 bg-zinc-200 dark:bg-[#f4f4f5] hover:bg-zinc-300 dark:hover:bg-white hover:scale-105"
+                    : "text-zinc-900 bg-white hover:scale-110"
                 }`}
               >
                 {isSubmitting ? "Sending..." : isSubmitted ? "Message Sent!" : "Send Message"}

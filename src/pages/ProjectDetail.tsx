@@ -5,7 +5,12 @@ import { projects } from "../data/projects";
 
 export default function ProjectDetail() {
   const { id } = useParams<{ id: string }>();
-  const project = projects.find((p) => p.id === id);
+  const projectIndex = projects.findIndex((p) => p.id === id);
+  const project = projects[projectIndex];
+  
+  const nextProjectIndex = (projectIndex + 1) % projects.length;
+  const nextProject = projects[nextProjectIndex];
+
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [validImages, setValidImages] = useState<string[]>(project?.images || []);
@@ -108,16 +113,28 @@ export default function ProjectDetail() {
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 py-16 md:py-20 flex flex-col items-center">
-      <div className="w-full flex justify-start mb-8 md:mb-12">
+      <div className="w-full flex justify-between items-center mb-8 md:mb-12">
         <Link
           to="/portfolio"
-          className="px-6 py-2 rounded-full text-sm font-semibold text-zinc-900 dark:text-white bg-zinc-200 dark:bg-[#f4f4f5]/10 hover-glow-gradient-border hover:bg-zinc-300 dark:hover:bg-white/20 hover:scale-105 transition-all duration-300 inline-flex items-center gap-2"
+          className="btn-glow px-6 py-2 rounded-full text-sm font-bold text-zinc-900 bg-white hover:scale-105 transition-all duration-300 inline-flex items-center gap-2"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-          Back to Collection
+          Back to Portfolio
         </Link>
+
+        {nextProject && (
+          <Link
+            to={`/portfolio/${nextProject.id}`}
+            className="btn-glow px-6 py-2 rounded-full text-sm font-bold text-zinc-900 bg-white hover:scale-105 transition-all duration-300 inline-flex items-center gap-2"
+          >
+            Next Project
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 12H19M19 12L12 19M19 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </Link>
+        )}
       </div>
 
       <motion.div
@@ -139,10 +156,10 @@ export default function ProjectDetail() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="w-full rounded-[2rem] md:rounded-[3rem] p-1 glow-gradient-border overflow-hidden cursor-pointer"
+          className="w-full rounded-[2rem] md:rounded-[3rem] glow-gradient-border overflow-hidden cursor-pointer"
           onClick={() => setSelectedImageIndex(currentIndex)}
         >
-          <div className="w-full aspect-[9/16] md:aspect-[3/4] max-h-[85vh] rounded-[1.8rem] md:rounded-[2.8rem] overflow-hidden bg-zinc-900 relative flex items-center justify-center">
+          <div className="w-full aspect-[9/16] md:aspect-[3/4] max-h-[85vh] rounded-[2rem] md:rounded-[3rem] overflow-hidden bg-zinc-900 relative flex items-center justify-center">
             <img
               key={currentIndex}
               src={validImages[currentIndex]}

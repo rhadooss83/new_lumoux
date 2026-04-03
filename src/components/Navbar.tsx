@@ -71,12 +71,7 @@ export default function Navbar() {
           <ThemeToggle />
           <Link
             to="/contact"
-            className={cn(
-              "px-5 py-2 rounded-full text-sm font-semibold transition-all",
-              scrolled 
-                ? "bg-white/10 border border-white/10 text-white hover:bg-white/20 shadow-[0_0_15px_rgba(255,255,255,0.05)]" 
-                : "bg-white border border-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.2)] text-purple-700 hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] dark:bg-zinc-900 dark:border-zinc-800 dark:text-purple-400"
-            )}
+            className="btn-glow px-5 py-2 rounded-full text-sm font-bold text-zinc-900 bg-white hover:scale-110 transition-all duration-300"
           >
             Request a Design
           </Link>
@@ -134,12 +129,7 @@ export default function Navbar() {
               <div className="h-px w-full bg-gray-500/20 my-1" />
               <Link
                 to="/contact"
-                className={cn(
-                  "text-center px-4 py-2.5 rounded-xl text-sm font-semibold transition-all mt-1",
-                  scrolled 
-                    ? "bg-white/10 border border-white/10 text-white hover:bg-white/20" 
-                    : "bg-purple-600 text-white hover:bg-purple-700"
-                )}
+                className="btn-glow text-center px-4 py-2.5 rounded-full text-sm font-bold text-zinc-900 bg-white hover:scale-105 transition-all mt-1"
               >
                 Request a Design
               </Link>

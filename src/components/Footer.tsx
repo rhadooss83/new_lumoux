@@ -12,9 +12,11 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-wrap justify-center gap-6 text-sm text-zinc-500 dark:text-gray-400">
-          <a href="#" className="hover:text-zinc-900 dark:hover:text-white transition-colors">Dribbble</a>
-          <a href="#" className="hover:text-zinc-900 dark:hover:text-white transition-colors">Behance</a>
-          <a href="#" className="hover:text-zinc-900 dark:hover:text-white transition-colors">LinkedIn</a>
+          <a href="https://www.facebook.com/rhadooss/" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-900 dark:hover:text-white transition-colors">Facebook</a>
+          <a href="https://www.instagram.com/rhadooss" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-900 dark:hover:text-white transition-colors">Instagram</a>
+          <a href="https://www.upwork.com/freelancers/~01e4ba91f88f2f35e5" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-900 dark:hover:text-white transition-colors">Upwork</a>
+          <a href="https://dribbble.com/LumoUX" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-900 dark:hover:text-white transition-colors">Dribbble</a>
+          <a href="https://www.linkedin.com/in/gabi-radu-63a024263/" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-900 dark:hover:text-white transition-colors">LinkedIn</a>
         </div>
       </div>
 

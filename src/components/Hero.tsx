@@ -24,23 +24,29 @@ export default function Hero() {
           LumoUX Design Studio
         </div>
         
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter flex flex-col items-center gap-2">
-          <span className="text-zinc-900 dark:text-zinc-100">Crafting Digital</span>
-          <span className="relative z-10 px-8 py-2 glow-gradient-border rounded-full text-gradient mt-2">
-            Experiences
+        <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter flex flex-wrap justify-center items-center gap-3 md:gap-4 mb-8">
+          <span className="relative z-10 px-6 py-2 md:px-8 md:py-4 bg-white/40 dark:bg-white/10 backdrop-blur-md border border-black/5 dark:border-white/10 rounded-full text-zinc-900 dark:text-white">
+            Clarity
+          </span>
+          <span className="text-zinc-500 dark:text-zinc-400/80 blur-[2px] transition-all duration-700 hover:blur-none hover:text-zinc-900 dark:hover:text-white cursor-default">
+            through design
           </span>
         </h1>
       </motion.div>
 
-      <motion.p 
+      <motion.div 
         style={{ y: y2, opacity }}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
-        className="max-w-2xl text-zinc-600 dark:text-zinc-400 text-base md:text-lg leading-relaxed mb-10 mt-6"
+        className="rounded-[2rem] glow-gradient-border mb-10 max-w-3xl mx-auto"
       >
-        Clear, functional, human-centered UI/UX design for startups, SaaS products, and digital founders world wide.
-      </motion.p>
+        <div className="bg-white dark:bg-black rounded-[2rem] px-6 py-6 md:px-10 md:py-8 text-center">
+          <p className="text-zinc-600 dark:text-gray-300 text-base md:text-lg leading-relaxed">
+            We transform complex problems into minimal, high-performing digital experiences. A UI/UX design studio focused on websites design, branding and logo design, with a human-centric approach. Freelance UI/UX Designer for Startups & Founders world wide.
+          </p>
+        </div>
+      </motion.div>
 
       <motion.div
         style={{ y: y2, opacity }}
@@ -51,7 +57,7 @@ export default function Hero() {
       >
         <Link
           to="/portfolio"
-          className="px-8 py-4 rounded-full text-sm font-bold text-white bg-purple-600 hover:bg-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] transition-all duration-300"
+          className="btn-glow px-8 py-4 rounded-full text-sm font-bold text-zinc-900 bg-white hover:scale-110 transition-all duration-300"
         >
           View Portfolio
         </Link>

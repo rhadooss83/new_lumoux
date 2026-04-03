@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
+@custom-variant dark (&:is(.dark *));
+
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
@@ -8,7 +10,7 @@
 
 @layer base {
   body {
-    @apply bg-zinc-50 text-zinc-950 font-sans antialiased overflow-x-hidden transition-colors duration-300;
+    @apply bg-[#f6f5f9] text-zinc-900 font-sans antialiased overflow-x-hidden transition-colors duration-300;
   }
   .dark body {
     @apply bg-zinc-950 text-zinc-50;
@@ -23,7 +25,7 @@
   .glow-gradient-border::before {
     content: "";
     position: absolute;
-    inset: -2px;
+    inset: 0;
     border-radius: inherit;
     background: linear-gradient(45deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6);
     background-size: 400% 400%;
@@ -37,13 +39,24 @@
     filter: blur(16px) hue-rotate(180deg);
     opacity: 1;
   }
-  .glow-gradient-border::after {
+
+  .btn-glow {
+    position: relative;
+  }
+  .btn-glow::before {
     content: "";
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    @apply bg-white dark:bg-[#09090b];
+    background: linear-gradient(45deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6);
+    background-size: 400% 400%;
     z-index: -1;
+    filter: blur(12px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .btn-glow:hover::before {
+    opacity: 0.8;
   }
 
   @keyframes gradient-spin {

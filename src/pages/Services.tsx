@@ -35,9 +35,9 @@ const ServiceCard: React.FC<{ service: typeof services[0], index: number, isServ
       transition={{ duration: 0.6, delay: index * 0.1 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`p-1 rounded-[2rem] glow-gradient-border card-hover transition-all duration-300 ${isServicesPage ? '' : 'hover:scale-105'}`}
+      className={`rounded-[2rem] glow-gradient-border card-hover transition-all duration-300 ${isServicesPage ? '' : 'hover:scale-105'}`}
     >
-      <div className="bg-white dark:bg-black rounded-[1.9rem] p-6 md:p-8 h-full flex flex-col items-center text-center">
+      <div className="bg-white dark:bg-black rounded-[2rem] p-6 md:p-8 h-full flex flex-col items-center text-center">
         <div className="mb-6 relative w-12 h-12 flex items-center justify-center">
           {/* Top Left */}
           <motion.div
@@ -147,9 +147,9 @@ export default function Services() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mt-12 md:mt-16 w-full max-w-3xl p-1 rounded-[2rem] glow-gradient-border"
+          className="mt-12 md:mt-16 w-full max-w-3xl rounded-[2rem] glow-gradient-border"
         >
-          <div className="bg-white dark:bg-black rounded-[1.9rem] p-6 md:p-10 text-center">
+          <div className="bg-white dark:bg-black rounded-[2rem] p-6 md:p-10 text-center">
             <p className="text-zinc-700 dark:text-gray-300 text-base md:text-lg leading-relaxed mb-4">
               UI/UX Design Studio, Product Design, Web Design for Startups, SaaS Design, Branding Identity.
             </p>
@@ -163,7 +163,7 @@ export default function Services() {
       <div className="mt-12 md:mt-16 flex justify-center">
         <Link
           to="/contact"
-          className="px-8 py-3 rounded-full text-sm font-semibold text-white bg-purple-600 hover:bg-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] transition-all duration-300"
+          className="btn-glow px-8 py-4 rounded-full text-sm font-bold text-zinc-900 bg-white hover:scale-110 transition-all duration-300"
         >
           Request a Design
         </Link>

@@ -48,10 +48,10 @@ const ProjectCard = ({ project, index }: { project: any, index: number }) => {
             rotateY,
             transformStyle: "preserve-3d",
           }}
-          className="w-full aspect-[4/3] rounded-[1.5rem] md:rounded-[2rem] p-1 glow-gradient-border overflow-hidden mb-4 transition-transform duration-300 group-hover:scale-[1.02]"
+          className="w-full aspect-[4/3] rounded-[1.5rem] md:rounded-[2rem] glow-gradient-border overflow-hidden mb-4 transition-transform duration-300 group-hover:scale-[1.02]"
         >
           <div 
-            className="w-full h-full rounded-[1.3rem] md:rounded-[1.8rem] overflow-hidden bg-black"
+            className="w-full h-full rounded-[1.5rem] md:rounded-[2rem] overflow-hidden bg-black"
             style={{ transform: "translateZ(30px)" }}
           >
             <img
