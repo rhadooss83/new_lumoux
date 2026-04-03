@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { cn } from "../lib/utils";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { ThemeToggle } from "./ThemeToggle";
 
 export default function Navbar() {
   const location = useLocation();
@@ -66,30 +67,36 @@ export default function Navbar() {
           ))}
         </div>
 
-        <Link
-          to="/contact"
-          className={cn(
-            "hidden md:block px-5 py-2 rounded-full text-sm font-semibold transition-all",
-            scrolled 
-              ? "bg-white/10 border border-white/10 text-white hover:bg-white/20 shadow-[0_0_15px_rgba(255,255,255,0.05)]" 
-              : "bg-white border border-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.2)] text-purple-700 hover:shadow-[0_0_20px_rgba(168,85,247,0.4)]"
-          )}
-        >
-          Request a Design
-        </Link>
+        <div className="hidden md:flex items-center gap-4">
+          <ThemeToggle />
+          <Link
+            to="/contact"
+            className={cn(
+              "px-5 py-2 rounded-full text-sm font-semibold transition-all",
+              scrolled 
+                ? "bg-white/10 border border-white/10 text-white hover:bg-white/20 shadow-[0_0_15px_rgba(255,255,255,0.05)]" 
+                : "bg-white border border-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.2)] text-purple-700 hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] dark:bg-zinc-900 dark:border-zinc-800 dark:text-purple-400"
+            )}
+          >
+            Request a Design
+          </Link>
+        </div>
 
         {/* Mobile Menu Button */}
-        <button 
-          className={cn("md:hidden p-2", scrolled ? "text-white" : "text-gray-600")}
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          {isMobileMenuOpen ? (
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-          ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
-          )}
-        </button>
+        <div className="md:hidden flex items-center gap-2">
+          <ThemeToggle />
+          <button 
+            className={cn("p-2", scrolled ? "text-white" : "text-gray-600 dark:text-gray-300")}
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? (
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+            )}
+          </button>
+        </div>
       </nav>
 
       {/* Mobile Menu Dropdown */}

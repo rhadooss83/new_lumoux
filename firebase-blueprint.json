@@ -1,0 +1,24 @@
+{
+  "entities": {
+    "ContactMessage": {
+      "title": "ContactMessage",
+      "description": "A message submitted through the contact form.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Name of the sender" },
+        "phone": { "type": "string", "description": "Phone number of the sender" },
+        "email": { "type": "string", "format": "email", "description": "Email of the sender" },
+        "place": { "type": "string", "description": "Location of the sender" },
+        "service": { "type": "string", "description": "Requested service" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp of submission" }
+      },
+      "required": ["name", "phone", "email", "place", "service", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/messages/{messageId}": {
+      "schema": { "$ref": "#/entities/ContactMessage" },
+      "description": "Collection of contact form messages."
+    }
+  }
+}

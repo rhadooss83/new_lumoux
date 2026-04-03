@@ -31,21 +31,21 @@ export default function Contact() {
           className="flex flex-col items-center"
         >
           <h2 className="text-4xl md:text-6xl font-bold tracking-tighter flex flex-wrap justify-center items-center gap-3 md:gap-4 mb-8">
-            <span className="text-zinc-400/80 blur-[2px] transition-all duration-700 hover:blur-none hover:text-white cursor-default">Ready to bring</span>
-            <span className="relative z-10 px-6 py-2 md:px-8 md:py-4 glow-gradient-border rounded-full">
+            <span className="text-zinc-500 dark:text-zinc-400/80 blur-[2px] transition-all duration-700 hover:blur-none hover:text-zinc-900 dark:hover:text-white cursor-default">Ready to bring</span>
+            <span className="relative z-10 px-6 py-2 md:px-8 md:py-4 glow-gradient-border rounded-full text-zinc-900 dark:text-white">
               Clarity
             </span>
-            <span className="text-zinc-400/80 blur-[2px] transition-all duration-700 hover:blur-none hover:text-white cursor-default">to your design?</span>
+            <span className="text-zinc-500 dark:text-zinc-400/80 blur-[2px] transition-all duration-700 hover:blur-none hover:text-zinc-900 dark:hover:text-white cursor-default">to your design?</span>
           </h2>
 
           <div className="p-1 rounded-[2rem] glow-gradient-border mt-8 max-w-2xl mx-auto">
-            <div className="bg-black rounded-[1.9rem] px-6 py-5 md:px-8 md:py-6 flex items-start gap-4 text-left">
+            <div className="bg-white dark:bg-black rounded-[1.9rem] px-6 py-5 md:px-8 md:py-6 flex items-start gap-4 text-left">
               <span className="w-2 h-2 mt-2 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.8)] shrink-0"></span>
               <div className="flex flex-col gap-1">
-                <span className="text-gray-200 text-sm md:text-base font-medium">
+                <span className="text-zinc-800 dark:text-gray-200 text-sm md:text-base font-medium">
                   Currently taking on new projects for Summer 2026.
                 </span>
-                <span className="text-gray-400 text-sm md:text-base leading-relaxed">
+                <span className="text-zinc-600 dark:text-gray-400 text-sm md:text-base leading-relaxed">
                   Design-only studio — I partner with web developers to deliver production-ready Figma files and design handoffs. Let's create something extraordinary together!
                 </span>
               </div>
@@ -58,8 +58,8 @@ export default function Contact() {
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 py-16 md:py-20 flex flex-col items-center">
-      <div className="mb-6 inline-flex items-center justify-center px-6 py-2 rounded-full glow-gradient-border bg-black">
-        <span className="text-white text-sm font-medium">Contact LumoUX</span>
+      <div className="mb-6 inline-flex items-center justify-center px-6 py-2 rounded-full glow-gradient-border bg-white dark:bg-black">
+        <span className="text-zinc-900 dark:text-white text-sm font-medium">Contact LumoUX</span>
       </div>
 
       <motion.div
@@ -69,8 +69,8 @@ export default function Contact() {
         transition={{ duration: 0.6 }}
         className="w-full max-w-3xl p-1 rounded-[2rem] md:rounded-3xl glow-gradient-border mt-8"
       >
-        <div className="bg-black rounded-[1.9rem] md:rounded-[1.7rem] p-6 md:p-10 h-full flex flex-col">
-          <div className="text-gray-300 text-base md:text-lg leading-relaxed mb-10 space-y-4 text-center md:text-left">
+        <div className="bg-white dark:bg-black rounded-[1.9rem] md:rounded-[1.7rem] p-6 md:p-10 h-full flex flex-col">
+          <div className="text-zinc-700 dark:text-gray-300 text-base md:text-lg leading-relaxed mb-10 space-y-4 text-center md:text-left">
             <p>
               Contact LumoUX UI/UX design studio. Get in touch with me, Gabi Radu, for web design collaborations, branding projects, or freelance UI/UX work.
             </p>
@@ -82,22 +82,22 @@ export default function Contact() {
           <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="flex flex-col gap-2">
-                <label htmlFor="name" className="text-sm font-medium text-gray-400">Name</label>
+                <label htmlFor="name" className="text-sm font-medium text-zinc-600 dark:text-gray-400">Name</label>
                 <input
                   type="text"
                   id="name"
                   required
-                  className="bg-zinc-900/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"
+                  className="bg-zinc-100 dark:bg-zinc-900/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:border-purple-500 transition-colors"
                   placeholder="John Doe"
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <label htmlFor="phone" className="text-sm font-medium text-gray-400">Phone</label>
+                <label htmlFor="phone" className="text-sm font-medium text-zinc-600 dark:text-gray-400">Phone</label>
                 <input
                   type="tel"
                   id="phone"
                   required
-                  className="bg-zinc-900/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"
+                  className="bg-zinc-100 dark:bg-zinc-900/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:border-purple-500 transition-colors"
                   placeholder="+1 (555) 000-0000"
                 />
               </div>
@@ -105,34 +105,34 @@ export default function Contact() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="flex flex-col gap-2">
-                <label htmlFor="email" className="text-sm font-medium text-gray-400">Email</label>
+                <label htmlFor="email" className="text-sm font-medium text-zinc-600 dark:text-gray-400">Email</label>
                 <input
                   type="email"
                   id="email"
                   required
-                  className="bg-zinc-900/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"
+                  className="bg-zinc-100 dark:bg-zinc-900/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:border-purple-500 transition-colors"
                   placeholder="john@example.com"
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <label htmlFor="place" className="text-sm font-medium text-gray-400">Place</label>
+                <label htmlFor="place" className="text-sm font-medium text-zinc-600 dark:text-gray-400">Place</label>
                 <input
                   type="text"
                   id="place"
                   required
-                  className="bg-zinc-900/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"
+                  className="bg-zinc-100 dark:bg-zinc-900/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:border-purple-500 transition-colors"
                   placeholder="City, Country"
                 />
               </div>
             </div>
 
             <div className="flex flex-col gap-2">
-              <label htmlFor="service" className="text-sm font-medium text-gray-400">Service Required</label>
+              <label htmlFor="service" className="text-sm font-medium text-zinc-600 dark:text-gray-400">Service Required</label>
               <select
                 id="service"
                 required
                 defaultValue=""
-                className="bg-zinc-900/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors appearance-none"
+                className="bg-zinc-100 dark:bg-zinc-900/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:border-purple-500 transition-colors appearance-none"
                 style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239CA3AF'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem center', backgroundSize: '1.5em' }}
               >
                 <option value="" disabled>Select a service...</option>
@@ -149,7 +149,7 @@ export default function Contact() {
                 className={`px-8 py-3 rounded-full text-sm font-semibold transition-all duration-300 ${
                   isSubmitted 
                     ? "bg-green-500 text-white" 
-                    : "text-zinc-900 bg-[#f4f4f5] hover:bg-white hover:scale-105"
+                    : "text-zinc-900 bg-zinc-200 dark:bg-[#f4f4f5] hover:bg-zinc-300 dark:hover:bg-white hover:scale-105"
                 }`}
               >
                 {isSubmitting ? "Sending..." : isSubmitted ? "Message Sent!" : "Send Message"}

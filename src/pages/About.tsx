@@ -7,11 +7,11 @@ export default function About() {
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 py-16 md:py-20 flex flex-col items-center">
-      <div className="mb-6 inline-flex items-center justify-center px-6 py-2 rounded-full glow-gradient-border bg-black">
-        <span className="text-white text-sm font-medium">About LumoUX</span>
+      <div className="mb-6 inline-flex items-center justify-center px-6 py-2 rounded-full glow-gradient-border bg-white dark:bg-black">
+        <span className="text-zinc-900 dark:text-white text-sm font-medium">About LumoUX</span>
       </div>
 
-      <p className="text-center text-gray-400 text-sm md:text-base max-w-2xl mx-auto mb-12 md:mb-16">
+      <p className="text-center text-zinc-600 dark:text-gray-400 text-sm md:text-base max-w-2xl mx-auto mb-12 md:mb-16">
         Clear, functional, human-centered UI/UX design.
       </p>
 
@@ -42,8 +42,8 @@ export default function About() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="flex-1 p-1 rounded-[2rem] md:rounded-3xl glow-gradient-border w-full"
         >
-          <div className={`bg-black rounded-[1.9rem] md:rounded-[1.7rem] p-6 md:p-10 h-full flex flex-col justify-center ${isAboutPage ? 'items-start text-left' : 'items-center md:items-start text-center md:text-left'}`}>
-            <div className="text-gray-300 text-base md:text-lg leading-relaxed mb-6 space-y-4">
+          <div className={`bg-white dark:bg-black rounded-[1.9rem] md:rounded-[1.7rem] p-6 md:p-10 h-full flex flex-col justify-center ${isAboutPage ? 'items-start text-left' : 'items-center md:items-start text-center md:text-left'}`}>
+            <div className="text-zinc-700 dark:text-gray-300 text-base md:text-lg leading-relaxed mb-6 space-y-4">
               <p>
                 Hi, I'm Gabi Radu. I run LumoUX, a design-only studio where I partner with web developers to deliver production-ready Figma files and design handoffs.
               </p>
@@ -64,7 +64,7 @@ export default function About() {
             </div>
             
             {!isAboutPage && (
-              <Link to="/about" className="text-purple-400 font-medium hover:text-purple-300 transition-colors inline-flex items-center gap-2 mt-2">
+              <Link to="/about" className="text-purple-600 dark:text-purple-400 font-medium hover:text-purple-500 dark:hover:text-purple-300 transition-colors inline-flex items-center gap-2 mt-2">
                 More about me
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>

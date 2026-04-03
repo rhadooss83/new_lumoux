@@ -37,7 +37,7 @@ const ServiceCard: React.FC<{ service: typeof services[0], index: number, isServ
       onMouseLeave={() => setIsHovered(false)}
       className={`p-1 rounded-[2rem] glow-gradient-border card-hover transition-all duration-300 ${isServicesPage ? '' : 'hover:scale-105'}`}
     >
-      <div className="bg-black rounded-[1.9rem] p-6 md:p-8 h-full flex flex-col items-center text-center">
+      <div className="bg-white dark:bg-black rounded-[1.9rem] p-6 md:p-8 h-full flex flex-col items-center text-center">
         <div className="mb-6 relative w-12 h-12 flex items-center justify-center">
           {/* Top Left */}
           <motion.div
@@ -51,7 +51,7 @@ const ServiceCard: React.FC<{ service: typeof services[0], index: number, isServ
             }}
             transition={{ duration: 0.4, type: "spring", stiffness: 250, damping: 20 }}
           >
-            <service.icon className="w-8 h-8 text-white" />
+            <service.icon className="w-8 h-8 text-zinc-900 dark:text-white" />
           </motion.div>
           {/* Top Right */}
           <motion.div
@@ -65,7 +65,7 @@ const ServiceCard: React.FC<{ service: typeof services[0], index: number, isServ
             }}
             transition={{ duration: 0.4, type: "spring", stiffness: 250, damping: 20 }}
           >
-            <service.icon className="w-8 h-8 text-white" />
+            <service.icon className="w-8 h-8 text-zinc-900 dark:text-white" />
           </motion.div>
           {/* Bottom Left */}
           <motion.div
@@ -79,7 +79,7 @@ const ServiceCard: React.FC<{ service: typeof services[0], index: number, isServ
             }}
             transition={{ duration: 0.4, type: "spring", stiffness: 250, damping: 20 }}
           >
-            <service.icon className="w-8 h-8 text-white" />
+            <service.icon className="w-8 h-8 text-zinc-900 dark:text-white" />
           </motion.div>
           {/* Bottom Right */}
           <motion.div
@@ -93,11 +93,11 @@ const ServiceCard: React.FC<{ service: typeof services[0], index: number, isServ
             }}
             transition={{ duration: 0.4, type: "spring", stiffness: 250, damping: 20 }}
           >
-            <service.icon className="w-8 h-8 text-white" />
+            <service.icon className="w-8 h-8 text-zinc-900 dark:text-white" />
           </motion.div>
         </div>
-        <h4 className="text-xl font-semibold mb-3 md:mb-4 text-white">{service.title}</h4>
-        <p className="text-sm text-gray-400 leading-relaxed min-h-[2.5rem] md:min-h-[3rem]">{service.description}</p>
+        <h4 className="text-xl font-semibold mb-3 md:mb-4 text-zinc-900 dark:text-white">{service.title}</h4>
+        <p className="text-sm text-zinc-600 dark:text-gray-400 leading-relaxed min-h-[2.5rem] md:min-h-[3rem]">{service.description}</p>
         
         {isServicesPage && (
           <AnimatePresence>
@@ -109,7 +109,7 @@ const ServiceCard: React.FC<{ service: typeof services[0], index: number, isServ
                 transition={{ duration: 0.3 }}
                 className="overflow-hidden"
               >
-                <p className="text-sm text-gray-300 leading-relaxed border-t border-white/10 pt-4">
+                <p className="text-sm text-zinc-500 dark:text-gray-300 leading-relaxed border-t border-zinc-200 dark:border-white/10 pt-4">
                   {service.expandedText}
                 </p>
               </motion.div>
@@ -127,11 +127,11 @@ export default function Services() {
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 py-16 md:py-20 flex flex-col items-center">
-      <div className="mb-6 inline-flex items-center justify-center px-6 py-2 rounded-full glow-gradient-border bg-black">
-        <span className="text-white text-sm font-medium">Creative Expertise & Services</span>
+      <div className="mb-6 inline-flex items-center justify-center px-6 py-2 rounded-full glow-gradient-border bg-white dark:bg-black">
+        <span className="text-zinc-900 dark:text-white text-sm font-medium">Creative Expertise & Services</span>
       </div>
 
-      <p className="text-center text-gray-400 text-sm md:text-base max-w-2xl mx-auto mb-12 md:mb-16">
+      <p className="text-center text-zinc-600 dark:text-gray-400 text-sm md:text-base max-w-2xl mx-auto mb-12 md:mb-16">
         Clear, functional, human-centered UI/UX design for startups, SaaS products, and digital founders world wide.
       </p>
 
@@ -149,11 +149,11 @@ export default function Services() {
           transition={{ duration: 0.6 }}
           className="mt-12 md:mt-16 w-full max-w-3xl p-1 rounded-[2rem] glow-gradient-border"
         >
-          <div className="bg-black rounded-[1.9rem] p-6 md:p-10 text-center">
-            <p className="text-gray-300 text-base md:text-lg leading-relaxed mb-4">
+          <div className="bg-white dark:bg-black rounded-[1.9rem] p-6 md:p-10 text-center">
+            <p className="text-zinc-700 dark:text-gray-300 text-base md:text-lg leading-relaxed mb-4">
               UI/UX Design Studio, Product Design, Web Design for Startups, SaaS Design, Branding Identity.
             </p>
-            <p className="text-gray-400 text-sm md:text-base leading-relaxed">
+            <p className="text-zinc-600 dark:text-gray-400 text-sm md:text-base leading-relaxed">
               User Research, Wireframing & Prototyping, High-fidelity UI, Human-centric design. Digital design solutions for tech founders, Conversion-focused landing pages, Minimalist brand identity systems.
             </p>
           </div>
@@ -163,7 +163,7 @@ export default function Services() {
       <div className="mt-12 md:mt-16 flex justify-center">
         <Link
           to="/contact"
-          className="px-8 py-3 rounded-full text-sm font-semibold text-zinc-900 hover-glow-gradient-border hover:scale-105 transition-all duration-300"
+          className="px-8 py-3 rounded-full text-sm font-semibold text-white bg-purple-600 hover:bg-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] transition-all duration-300"
         >
           Request a Design
         </Link>

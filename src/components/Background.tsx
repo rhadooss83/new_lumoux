@@ -143,8 +143,8 @@ export default function Background() {
   }, [mouseX, mouseY, spread]);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-zinc-950">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-zinc-900/60 via-zinc-950 to-zinc-950" />
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-zinc-50 dark:bg-zinc-950 transition-colors duration-300">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-zinc-200/60 via-zinc-50 to-zinc-50 dark:from-zinc-900/60 dark:via-zinc-950 dark:to-zinc-950 transition-colors duration-300" />
       {bubbles.map((bubble) => (
         <Bubble key={bubble.id} bubble={bubble} mouseX={mouseX} mouseY={mouseY} spread={spread} />
       ))}
