@@ -112,7 +112,7 @@ export default function ProjectDetail() {
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto px-4 py-16 md:py-20 flex flex-col items-center">
+    <div className="w-full max-w-5xl mx-auto px-4 pt-32 pb-16 md:pt-36 md:pb-20 flex flex-col items-center">
       <div className="w-full flex justify-between items-center mb-8 md:mb-12">
         <Link
           to="/portfolio"
