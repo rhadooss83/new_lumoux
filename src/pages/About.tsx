@@ -28,10 +28,10 @@ export default function About() {
               {/* 
                 USER INSTRUCTION: 
                 1. Upload your picture to the 'public' folder in your project.
-                2. Name it 'profile-picture.jpg' (or change the src attribute below to match your file name).
+                2. Name it 'profile-picture.webp' (or change the src attribute below to match your file name).
               */}
               <img
-                src="/profile-picture.jpg"
+                src="/profile-picture.webp"
                 alt="Gabi Radu - UI/UX Designer"
                 className="w-full h-full object-cover"
                 onError={(e) => {
@@ -88,7 +88,7 @@ export default function About() {
               <div className="mt-8 flex justify-start w-full">
                 <Link
                   to="/contact"
-                  className="btn-glow px-8 py-4 rounded-full text-sm font-bold text-zinc-900 bg-white hover:scale-110 transition-all duration-300"
+                  className="btn-glow px-8 py-4 rounded-full text-sm font-bold text-zinc-900 dark:text-white bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:scale-105 transition-all duration-300"
                 >
                   Get in Touch
                 </Link>

@@ -42,9 +42,10 @@ export default function Navbar() {
       <nav 
         className={cn(
           "fixed left-1/2 -translate-x-1/2 w-[95%] max-w-6xl rounded-full px-6 py-3 flex justify-between items-center z-50 transition-all duration-500",
-          scrolled ? "top-4 text-white" : "top-6 bg-white text-black shadow-[0_0_30px_rgba(255,255,255,0.1)]"
+          scrolled 
+            ? "top-4 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-lg border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-white shadow-lg" 
+            : "top-6 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-white shadow-[0_0_30px_rgba(0,0,0,0.1)] dark:shadow-[0_0_30px_rgba(255,255,255,0.05)]"
         )}
-        style={scrolled ? glassStyle : undefined}
       >
         <Link to="/" className="text-xl font-bold tracking-tight">
           LumoUX
@@ -58,8 +59,8 @@ export default function Navbar() {
               className={cn(
                 "transition-colors",
                 location.pathname === link.path
-                  ? (scrolled ? "text-purple-400 underline underline-offset-4" : "text-purple-600 underline underline-offset-4")
-                  : (scrolled ? "text-gray-300 hover:text-white" : "text-gray-600 hover:text-purple-600")
+                  ? "text-purple-600 dark:text-purple-400 underline underline-offset-4"
+                  : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100"
               )}
             >
               {link.name}
@@ -71,7 +72,7 @@ export default function Navbar() {
           <ThemeToggle />
           <Link
             to="/contact"
-            className="btn-glow px-5 py-2 rounded-full text-sm font-bold text-zinc-900 bg-white hover:scale-110 transition-all duration-300"
+            className="btn-glow px-6 py-2.5 m-1 rounded-full text-sm font-bold text-zinc-900 dark:text-white bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:scale-105 transition-all duration-300"
           >
             Request a Design
           </Link>
@@ -81,7 +82,7 @@ export default function Navbar() {
         <div className="md:hidden flex items-center gap-2">
           <ThemeToggle />
           <button 
-            className={cn("p-2", scrolled ? "text-white" : "text-gray-600 dark:text-gray-300")}
+            className="p-2 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -105,31 +106,26 @@ export default function Navbar() {
             className="fixed top-[80px] right-4 w-[220px] z-40"
           >
             <div 
-              className={cn(
-                "rounded-2xl p-4 flex flex-col gap-3 shadow-2xl border",
-                scrolled 
-                  ? "bg-black/90 backdrop-blur-xl border-white/10 text-white" 
-                  : "bg-white/95 backdrop-blur-xl border-gray-200 text-black"
-              )}
+              className="rounded-2xl p-4 flex flex-col gap-3 shadow-2xl border bg-white/95 dark:bg-zinc-950/95 backdrop-blur-xl border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-white"
             >
               {links.map((link) => (
                 <Link
                   key={link.name}
                   to={link.path}
                   className={cn(
-                    "text-base font-medium py-1.5 px-2 rounded-lg transition-colors",
+                    "text-base font-medium py-2 px-3 rounded-lg transition-colors",
                     location.pathname === link.path
-                      ? (scrolled ? "text-purple-400 bg-white/5" : "text-purple-600 bg-purple-50")
-                      : (scrolled ? "text-gray-300 hover:text-white hover:bg-white/5" : "text-gray-600 hover:text-purple-600 hover:bg-purple-50")
+                      ? "text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-white/5"
+                      : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-50 dark:hover:bg-white/5"
                   )}
                 >
                   {link.name}
                 </Link>
               ))}
-              <div className="h-px w-full bg-gray-500/20 my-1" />
+              <div className="h-px w-full bg-zinc-200 dark:bg-zinc-800 my-2" />
               <Link
                 to="/contact"
-                className="btn-glow text-center px-4 py-2.5 rounded-full text-sm font-bold text-zinc-900 bg-white hover:scale-105 transition-all mt-1"
+                className="btn-glow block w-full py-3 my-1 rounded-xl text-sm font-bold text-zinc-900 dark:text-white bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-center hover:scale-105 transition-all"
               >
                 Request a Design
               </Link>

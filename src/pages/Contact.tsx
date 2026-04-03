@@ -32,7 +32,7 @@ export default function Contact() {
         >
           <h2 className="text-4xl md:text-6xl font-bold tracking-tighter flex flex-wrap justify-center items-center gap-3 md:gap-4 mb-8">
             <span className="text-zinc-500 dark:text-zinc-400/80 blur-[2px] transition-all duration-700 hover:blur-none hover:text-zinc-900 dark:hover:text-white cursor-default">Ready to bring</span>
-            <span className="relative z-10 px-6 py-2 md:px-8 md:py-4 bg-white/40 dark:bg-white/10 backdrop-blur-md border border-black/5 dark:border-white/10 rounded-full text-zinc-900 dark:text-white">
+            <span className="relative z-10 px-6 py-2 md:px-8 md:py-4 bg-zinc-200/40 dark:bg-white/5 backdrop-blur-md border border-zinc-300/50 dark:border-white/10 rounded-full text-zinc-900 dark:text-white glass-glow">
               Clarity
             </span>
             <span className="text-zinc-500 dark:text-zinc-400/80 blur-[2px] transition-all duration-700 hover:blur-none hover:text-zinc-900 dark:hover:text-white cursor-default">to your design?</span>
@@ -146,10 +146,10 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={isSubmitting || isSubmitted}
-                className={`btn-glow px-8 py-3 rounded-full text-sm font-bold transition-all duration-300 ${
+                className={`btn-glow px-8 py-3 rounded-full text-sm font-bold border border-zinc-200 dark:border-zinc-800 transition-all duration-300 ${
                   isSubmitted 
                     ? "bg-green-500 text-white" 
-                    : "text-zinc-900 bg-white hover:scale-110"
+                    : "text-zinc-900 dark:text-white bg-white dark:bg-zinc-900 hover:scale-105"
                 }`}
               >
                 {isSubmitting ? "Sending..." : isSubmitted ? "Message Sent!" : "Send Message"}

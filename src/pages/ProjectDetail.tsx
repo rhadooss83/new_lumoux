@@ -116,7 +116,7 @@ export default function ProjectDetail() {
       <div className="w-full flex justify-between items-center mb-8 md:mb-12">
         <Link
           to="/portfolio"
-          className="btn-glow px-6 py-2 rounded-full text-sm font-bold text-zinc-900 bg-white hover:scale-105 transition-all duration-300 inline-flex items-center gap-2"
+          className="btn-glow px-6 py-2 rounded-full text-sm font-bold text-zinc-900 dark:text-white bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:scale-105 transition-all duration-300 inline-flex items-center gap-2"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -127,7 +127,7 @@ export default function ProjectDetail() {
         {nextProject && (
           <Link
             to={`/portfolio/${nextProject.id}`}
-            className="btn-glow px-6 py-2 rounded-full text-sm font-bold text-zinc-900 bg-white hover:scale-105 transition-all duration-300 inline-flex items-center gap-2"
+            className="btn-glow px-6 py-2 rounded-full text-sm font-bold text-zinc-900 dark:text-white bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:scale-105 transition-all duration-300 inline-flex items-center gap-2"
           >
             Next Project
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

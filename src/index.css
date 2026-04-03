@@ -42,11 +42,12 @@
 
   .btn-glow {
     position: relative;
+    isolation: isolate;
   }
   .btn-glow::before {
     content: "";
     position: absolute;
-    inset: 0;
+    inset: -4px;
     border-radius: inherit;
     background: linear-gradient(45deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6);
     background-size: 400% 400%;
@@ -54,9 +55,31 @@
     filter: blur(12px);
     opacity: 0;
     transition: opacity 0.3s ease;
+    animation: gradient-spin 10s ease infinite;
   }
   .btn-glow:hover::before {
+    opacity: 1;
+  }
+
+  .glass-glow {
+    position: relative;
+    isolation: isolate;
+  }
+  .glass-glow::before {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: inherit;
+    padding: 4px;
+    background: linear-gradient(45deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6);
+    background-size: 400% 400%;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    z-index: -1;
+    filter: blur(8px);
     opacity: 0.8;
+    animation: gradient-spin 10s ease infinite;
   }
 
   @keyframes gradient-spin {

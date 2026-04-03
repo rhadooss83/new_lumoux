@@ -163,7 +163,7 @@ export default function Services() {
       <div className="mt-12 md:mt-16 flex justify-center">
         <Link
           to="/contact"
-          className="btn-glow px-8 py-4 rounded-full text-sm font-bold text-zinc-900 bg-white hover:scale-110 transition-all duration-300"
+          className="btn-glow px-8 py-4 rounded-full text-sm font-bold text-zinc-900 dark:text-white bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:scale-105 transition-all duration-300"
         >
           Request a Design
         </Link>
