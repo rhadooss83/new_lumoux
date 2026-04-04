@@ -2,23 +2,43 @@ import { motion } from "framer-motion";
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { db } from "../firebase";
 
 export default function Contact() {
   const location = useLocation();
   const isContactPage = location.pathname === "/contact";
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
+    setError(null);
+
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      name: formData.get("name") as string,
+      phone: formData.get("phone") as string,
+      email: formData.get("email") as string,
+      place: formData.get("place") as string,
+      service: formData.get("service") as string,
+      createdAt: serverTimestamp(),
+    };
+
+    try {
+      await addDoc(collection(db, "messages"), data);
       setIsSubmitted(true);
-      // Reset form after 3 seconds
-      setTimeout(() => setIsSubmitted(false), 3000);
-    }, 1500);
+      (e.target as HTMLFormElement).reset();
+      // Reset success message after 5 seconds
+      setTimeout(() => setIsSubmitted(false), 5000);
+    } catch (err) {
+      console.error("Error submitting form:", err);
+      setError("Something went wrong. Please try again or contact via WhatsApp.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (!isContactPage) {
@@ -93,6 +113,7 @@ export default function Contact() {
                 <input
                   type="text"
                   id="name"
+                  name="name"
                   required
                   className="bg-zinc-100 dark:bg-zinc-900/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:border-purple-500 transition-colors"
                   placeholder="John Doe"
@@ -103,6 +124,7 @@ export default function Contact() {
                 <input
                   type="tel"
                   id="phone"
+                  name="phone"
                   required
                   className="bg-zinc-100 dark:bg-zinc-900/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:border-purple-500 transition-colors"
                   placeholder="+1 (555) 000-0000"
@@ -116,6 +138,7 @@ export default function Contact() {
                 <input
                   type="email"
                   id="email"
+                  name="email"
                   required
                   className="bg-zinc-100 dark:bg-zinc-900/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:border-purple-500 transition-colors"
                   placeholder="john@example.com"
@@ -126,6 +149,7 @@ export default function Contact() {
                 <input
                   type="text"
                   id="place"
+                  name="place"
                   required
                   className="bg-zinc-100 dark:bg-zinc-900/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:border-purple-500 transition-colors"
                   placeholder="City, Country"
@@ -137,6 +161,7 @@ export default function Contact() {
               <label htmlFor="service" className="text-sm font-medium text-zinc-600 dark:text-gray-400">Service Required</label>
               <select
                 id="service"
+                name="service"
                 required
                 defaultValue=""
                 className="bg-zinc-100 dark:bg-zinc-900/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:border-purple-500 transition-colors appearance-none"
@@ -149,7 +174,8 @@ export default function Contact() {
               </select>
             </div>
 
-            <div className="mt-4 flex justify-center md:justify-start">
+            <div className="mt-4 flex flex-col items-center md:items-start gap-4">
+              {error && <p className="text-red-500 text-sm">{error}</p>}
               <button
                 type="submit"
                 disabled={isSubmitting || isSubmitted}

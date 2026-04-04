@@ -4,6 +4,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import Background from "./Background";
 import Hero from "./Hero";
+import Chatbot from "./Chatbot";
 
 export default function Layout() {
   const { pathname } = useLocation();
@@ -25,6 +26,7 @@ export default function Layout() {
       </main>
 
       <Footer />
+      <Chatbot />
     </div>
   );
 }

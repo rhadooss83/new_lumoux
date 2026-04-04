@@ -11,6 +11,7 @@ const Services = lazy(() => import("./pages/Services"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Portfolio = lazy(() => import("./pages/Portfolio"));
 const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
+const Admin = lazy(() => import("./pages/Admin"));
 
 const PageWrapper = ({ children }: { children: React.ReactNode }) => (
   <motion.div
@@ -36,6 +37,7 @@ function AnimatedRoutes() {
           <Route path="contact" element={<Suspense fallback={<div className="min-h-screen" />}><PageWrapper><Contact /></PageWrapper></Suspense>} />
           <Route path="portfolio" element={<Suspense fallback={<div className="min-h-screen" />}><PageWrapper><Portfolio /></PageWrapper></Suspense>} />
           <Route path="portfolio/:id" element={<Suspense fallback={<div className="min-h-screen" />}><PageWrapper><ProjectDetail /></PageWrapper></Suspense>} />
+          <Route path="admin" element={<Suspense fallback={<div className="min-h-screen" />}><PageWrapper><Admin /></PageWrapper></Suspense>} />
         </Route>
       </Routes>
     </AnimatePresence>
