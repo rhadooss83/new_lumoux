@@ -6,7 +6,9 @@ function checkUrl(url) {
   });
 }
 
-checkUrl('https://new-lumoux.vercel.app/velocity-kicks-1.webp');
-checkUrl('https://new-lumoux.vercel.app/Velocity-Kicks-1.webp');
-checkUrl('https://new-lumoux.vercel.app/velocity-kicks.webp');
-checkUrl('https://new-lumoux.vercel.app/Velocity-Kicks.webp');
+checkUrl('https://new-lumoux.vercel.app/FurDeco.webp');
+checkUrl('https://new-lumoux.vercel.app/furdeco.webp');
+checkUrl('https://new-lumoux.vercel.app/ChocoLuxe.webp');
+checkUrl('https://new-lumoux.vercel.app/chocoluxe.webp');
+checkUrl('https://new-lumoux.vercel.app/Crypto.webp');
+checkUrl('https://new-lumoux.vercel.app/crypto.webp');

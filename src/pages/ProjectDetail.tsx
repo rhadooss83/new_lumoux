@@ -14,82 +14,7 @@ export default function ProjectDetail() {
 
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [validImages, setValidImages] = useState<string[]>(project?.images || []);
-
-  // Dynamic image discovery
-  useEffect(() => {
-    if (!project) return;
-    
-    let isMounted = true;
-    
-    const discoverImages = async () => {
-      const foundImages: string[] = [];
-      
-      const checkImage = (url: string): Promise<boolean> => {
-        return new Promise((resolve) => {
-          const img = new Image();
-          img.onload = () => resolve(true);
-          img.onerror = () => resolve(false);
-          img.src = url;
-        });
-      };
-
-      const extensions = ['.webp', '.jpg', '.png'];
-      
-      // Always check the base images
-      for (const ext of extensions) {
-        if (await checkImage(`/${project.id}${ext}`)) {
-          foundImages.push(`/${project.id}${ext}`);
-          break; // Only use the first one found
-        }
-      }
-
-      // Check numbered images 1 through 15 concurrently
-      const checks = [];
-      for (let i = 1; i <= 15; i++) {
-        for (const ext of extensions) {
-          checks.push(
-            checkImage(`/${project.id}-${i}${ext}`).then(exists => 
-              exists ? `/${project.id}-${i}${ext}` : null
-            )
-          );
-        }
-      }
-      
-      const results = await Promise.all(checks);
-      // Filter out nulls and sort to maintain order (e.g., -1 before -2)
-      const validUrls = results.filter((url): url is string => url !== null);
-      
-      // Group by number and pick the first extension found for each number
-      const uniqueNumberedImages = new Map<string, string>();
-      validUrls.forEach(url => {
-        const match = url.match(/-(\d+)\./);
-        if (match) {
-          const num = match[1];
-          if (!uniqueNumberedImages.has(num)) {
-            uniqueNumberedImages.set(num, url);
-          }
-        }
-      });
-      
-      // Sort by number
-      const sortedNumberedImages = Array.from(uniqueNumberedImages.entries())
-        .sort((a, b) => parseInt(a[0]) - parseInt(b[0]))
-        .map(entry => entry[1]);
-        
-      foundImages.push(...sortedNumberedImages);
-
-      if (isMounted && foundImages.length > 0) {
-        setValidImages(foundImages);
-      }
-    };
-
-    discoverImages();
-    
-    return () => {
-      isMounted = false;
-    };
-  }, [project]);
+  const validImages = project?.images || [];
 
   // Close modal on escape key
   useEffect(() => {
@@ -171,9 +96,6 @@ export default function ProjectDetail() {
               alt={`${project.title} screen ${currentIndex + 1}`}
               className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105"
               referrerPolicy="no-referrer"
-              onError={(e) => {
-                e.currentTarget.src = `https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1200&auto=format&fit=crop`;
-              }}
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
               <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/60 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">

@@ -9,6 +9,7 @@ export default function Admin() {
   const [user, setUser] = useState<any>(null);
   const [messages, setMessages] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loginError, setLoginError] = useState<string | null>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -37,10 +38,12 @@ export default function Admin() {
 
   const handleLogin = async () => {
     const provider = new GoogleAuthProvider();
+    setLoginError(null);
     try {
       await signInWithPopup(auth, provider);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Login error:", error);
+      setLoginError(error.message || "Failed to sign in. Please check your Firebase configuration.");
     }
   };
 
@@ -71,6 +74,14 @@ export default function Admin() {
         <div className="bg-white dark:bg-zinc-950 p-8 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-xl text-center max-w-md w-full">
           <h1 className="text-2xl font-bold mb-2 text-zinc-900 dark:text-white">Admin Access</h1>
           <p className="text-zinc-600 dark:text-zinc-400 mb-8">Please log in to view messages.</p>
+          {loginError && (
+            <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-sm rounded-xl border border-red-200 dark:border-red-800">
+              {loginError}
+              <p className="mt-2 text-xs">
+                Note: If you are on Vercel, make sure to add your Vercel domain to the authorized domains in Firebase Authentication settings.
+              </p>
+            </div>
+          )}
           <button
             onClick={handleLogin}
             className="btn-glow w-full py-3 rounded-xl text-sm font-bold text-zinc-900 dark:text-white bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:scale-105 transition-all"

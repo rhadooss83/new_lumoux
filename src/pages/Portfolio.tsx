@@ -60,9 +60,6 @@ const ProjectCard = ({ project, index }: { project: any, index: number }) => {
               alt={project.title}
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
               referrerPolicy="no-referrer"
-              onError={(e) => {
-                e.currentTarget.src = `https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1200&auto=format&fit=crop`;
-              }}
             />
           </div>
         </motion.div>
