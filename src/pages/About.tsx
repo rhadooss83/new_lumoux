@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 export default function About() {
   const location = useLocation();
@@ -7,6 +8,12 @@ export default function About() {
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 py-16 md:py-20 flex flex-col items-center">
+      {isAboutPage && (
+        <Helmet>
+          <title>About LumoUX | Gabi Radu</title>
+          <meta name="description" content="Learn more about Gabi Radu, the UI/UX designer behind LumoUX, and the passion for creating clear, functional, and human designs." />
+        </Helmet>
+      )}
       <div className="mb-6 inline-flex items-center justify-center px-6 py-2 rounded-full glow-gradient-border bg-white dark:bg-black">
         <span className="text-zinc-900 dark:text-white text-sm font-medium">About LumoUX</span>
       </div>

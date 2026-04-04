@@ -2,6 +2,7 @@ import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
 import { projects } from "../data/projects";
 import React from "react";
+import { Helmet } from "react-helmet-async";
 
 const ProjectCard = ({ project, index }: { project: any, index: number }) => {
   const x = useMotionValue(0);
@@ -80,6 +81,12 @@ export default function Portfolio({ isHome = false }: { isHome?: boolean }) {
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 py-16 md:py-20 flex flex-col items-center">
+      {!isHome && (
+        <Helmet>
+          <title>Portfolio | LumoUX Design Studio</title>
+          <meta name="description" content="View the creative portfolio of LumoUX, featuring UI/UX design, branding, and web design projects." />
+        </Helmet>
+      )}
       <div className="mb-12 md:mb-16 inline-flex items-center justify-center px-6 py-2 rounded-full glow-gradient-border bg-white dark:bg-black">
         <span className="text-zinc-900 dark:text-white text-sm font-medium">A glimpse into my creative work.</span>
       </div>

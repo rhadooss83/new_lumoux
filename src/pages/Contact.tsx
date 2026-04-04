@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 export default function Contact() {
   const location = useLocation();
@@ -58,6 +59,12 @@ export default function Contact() {
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 py-16 md:py-20 flex flex-col items-center">
+      {isContactPage && (
+        <Helmet>
+          <title>Contact | LumoUX Design Studio</title>
+          <meta name="description" content="Get in touch with LumoUX for web design collaborations, branding projects, or freelance UI/UX work." />
+        </Helmet>
+      )}
       <div className="mb-6 inline-flex items-center justify-center px-6 py-2 rounded-full glow-gradient-border bg-white dark:bg-black">
         <span className="text-zinc-900 dark:text-white text-sm font-medium">Contact LumoUX</span>
       </div>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { LayoutTemplate, Palette, MonitorSmartphone } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const services = [
   {
@@ -127,6 +128,12 @@ export default function Services() {
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 py-16 md:py-20 flex flex-col items-center">
+      {isServicesPage && (
+        <Helmet>
+          <title>Services | LumoUX Design Studio</title>
+          <meta name="description" content="Explore the UI/UX design, brand identity, and logo design services offered by LumoUX." />
+        </Helmet>
+      )}
       <div className="mb-6 inline-flex items-center justify-center px-6 py-2 rounded-full glow-gradient-border bg-white dark:bg-black">
         <span className="text-zinc-900 dark:text-white text-sm font-medium">Creative Expertise & Services</span>
       </div>

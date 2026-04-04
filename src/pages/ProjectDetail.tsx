@@ -2,6 +2,7 @@ import { useParams, Link, Navigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { projects } from "../data/projects";
+import { Helmet } from "react-helmet-async";
 
 export default function ProjectDetail() {
   const { id } = useParams<{ id: string }>();
@@ -113,6 +114,10 @@ export default function ProjectDetail() {
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 pt-32 pb-16 md:pt-36 md:pb-20 flex flex-col items-center">
+      <Helmet>
+        <title>{project.title} | LumoUX Portfolio</title>
+        <meta name="description" content={project.description} />
+      </Helmet>
       <div className="w-full flex justify-between items-center mb-8 md:mb-12">
         <Link
           to="/portfolio"

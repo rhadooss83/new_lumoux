@@ -1,29 +1,56 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { lazy, Suspense } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { HelmetProvider } from "react-helmet-async";
 import Layout from "./components/Layout";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Services from "./pages/Services";
-import Contact from "./pages/Contact";
-import Portfolio from "./pages/Portfolio";
-import ProjectDetail from "./pages/ProjectDetail";
 import { ThemeProvider } from "./components/ThemeProvider";
+
+const Home = lazy(() => import("./pages/Home"));
+const About = lazy(() => import("./pages/About"));
+const Services = lazy(() => import("./pages/Services"));
+const Contact = lazy(() => import("./pages/Contact"));
+const Portfolio = lazy(() => import("./pages/Portfolio"));
+const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
+
+const PageWrapper = ({ children }: { children: React.ReactNode }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: -20 }}
+    transition={{ duration: 0.4, ease: "easeInOut" }}
+  >
+    {children}
+  </motion.div>
+);
+
+function AnimatedRoutes() {
+  const location = useLocation();
+  
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Suspense fallback={<div className="min-h-screen" />}><PageWrapper><Home /></PageWrapper></Suspense>} />
+          <Route path="about" element={<Suspense fallback={<div className="min-h-screen" />}><PageWrapper><About /></PageWrapper></Suspense>} />
+          <Route path="services" element={<Suspense fallback={<div className="min-h-screen" />}><PageWrapper><Services /></PageWrapper></Suspense>} />
+          <Route path="contact" element={<Suspense fallback={<div className="min-h-screen" />}><PageWrapper><Contact /></PageWrapper></Suspense>} />
+          <Route path="portfolio" element={<Suspense fallback={<div className="min-h-screen" />}><PageWrapper><Portfolio /></PageWrapper></Suspense>} />
+          <Route path="portfolio/:id" element={<Suspense fallback={<div className="min-h-screen" />}><PageWrapper><ProjectDetail /></PageWrapper></Suspense>} />
+        </Route>
+      </Routes>
+    </AnimatePresence>
+  );
+}
 
 function App() {
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="about" element={<About />} />
-            <Route path="services" element={<Services />} />
-            <Route path="contact" element={<Contact />} />
-            <Route path="portfolio" element={<Portfolio />} />
-            <Route path="portfolio/:id" element={<ProjectDetail />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </ThemeProvider>
+    <HelmetProvider>
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <BrowserRouter>
+          <AnimatedRoutes />
+        </BrowserRouter>
+      </ThemeProvider>
+    </HelmetProvider>
   );
 }
 
