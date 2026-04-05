@@ -3,15 +3,16 @@ import { collection, query, orderBy, onSnapshot, deleteDoc, doc } from 'firebase
 import { signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from 'firebase/auth';
 import { db, auth } from '../firebase';
 import { Helmet } from 'react-helmet-async';
-import { Trash2, LogOut, MessageSquare, LayoutGrid } from 'lucide-react';
+import { Trash2, LogOut, MessageSquare, LayoutGrid, FileText } from 'lucide-react';
 import AdminCMS from '../components/AdminCMS';
+import SiteContentCMS from '../components/SiteContentCMS';
 
 export default function Admin() {
   const [user, setUser] = useState<any>(null);
   const [messages, setMessages] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [loginError, setLoginError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'messages' | 'projects'>('messages');
+  const [activeTab, setActiveTab] = useState<'messages' | 'projects' | 'content'>('messages');
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -112,10 +113,10 @@ export default function Admin() {
         </button>
       </div>
 
-      <div className="flex gap-4 mb-8 border-b border-zinc-200 dark:border-zinc-800 pb-px">
+      <div className="flex gap-4 mb-8 border-b border-zinc-200 dark:border-zinc-800 pb-px overflow-x-auto">
         <button
           onClick={() => setActiveTab('messages')}
-          className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+          className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
             activeTab === 'messages' 
               ? 'border-purple-500 text-purple-600 dark:text-purple-400' 
               : 'border-transparent text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
@@ -126,7 +127,7 @@ export default function Admin() {
         </button>
         <button
           onClick={() => setActiveTab('projects')}
-          className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+          className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
             activeTab === 'projects' 
               ? 'border-purple-500 text-purple-600 dark:text-purple-400' 
               : 'border-transparent text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
@@ -135,9 +136,20 @@ export default function Admin() {
           <LayoutGrid size={18} />
           Projects (CMS)
         </button>
+        <button
+          onClick={() => setActiveTab('content')}
+          className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
+            activeTab === 'content' 
+              ? 'border-purple-500 text-purple-600 dark:text-purple-400' 
+              : 'border-transparent text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
+          }`}
+        >
+          <FileText size={18} />
+          Site Content
+        </button>
       </div>
 
-      {activeTab === 'messages' ? (
+      {activeTab === 'messages' && (
         <div className="bg-white dark:bg-zinc-950 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-xl overflow-hidden">
           {messages.length === 0 ? (
             <div className="p-12 text-center text-zinc-500 dark:text-zinc-400">
@@ -152,32 +164,33 @@ export default function Admin() {
                     <th className="p-4 font-medium text-zinc-600 dark:text-zinc-400">Name</th>
                     <th className="p-4 font-medium text-zinc-600 dark:text-zinc-400">Contact</th>
                     <th className="p-4 font-medium text-zinc-600 dark:text-zinc-400">Service</th>
-                    <th className="p-4 font-medium text-zinc-600 dark:text-zinc-400">Place</th>
+                    <th className="p-4 font-medium text-zinc-600 dark:text-zinc-400">Message</th>
                     <th className="p-4 font-medium text-zinc-600 dark:text-zinc-400 text-right">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {messages.map((msg) => (
                     <tr key={msg.id} className="border-b border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900/30 transition-colors">
-                      <td className="p-4 text-sm text-zinc-900 dark:text-zinc-300">
+                      <td className="p-4 text-sm text-zinc-900 dark:text-zinc-300 align-top">
                         {msg.createdAt?.toDate ? msg.createdAt.toDate().toLocaleDateString() : 'Just now'}
                       </td>
-                      <td className="p-4 text-sm font-medium text-zinc-900 dark:text-white">
+                      <td className="p-4 text-sm font-medium text-zinc-900 dark:text-white align-top">
                         {msg.name}
+                        <div className="text-xs text-zinc-500 font-normal mt-1">{msg.place}</div>
                       </td>
-                      <td className="p-4 text-sm text-zinc-600 dark:text-zinc-400">
+                      <td className="p-4 text-sm text-zinc-600 dark:text-zinc-400 align-top">
                         <div>{msg.email}</div>
                         <div>{msg.phone}</div>
                       </td>
-                      <td className="p-4 text-sm text-zinc-900 dark:text-zinc-300">
+                      <td className="p-4 text-sm text-zinc-900 dark:text-zinc-300 align-top">
                         <span className="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-md text-xs font-medium uppercase tracking-wider">
                           {msg.service}
                         </span>
                       </td>
-                      <td className="p-4 text-sm text-zinc-600 dark:text-zinc-400">
-                        {msg.place}
+                      <td className="p-4 text-sm text-zinc-600 dark:text-zinc-400 max-w-xs align-top">
+                        <p className="whitespace-pre-wrap">{msg.message || <span className="italic text-zinc-400">No message provided</span>}</p>
                       </td>
-                      <td className="p-4 text-sm text-right">
+                      <td className="p-4 text-sm text-right align-top">
                         <button
                           onClick={() => handleDelete(msg.id)}
                           className="p-2 text-zinc-400 hover:text-red-500 transition-colors rounded-lg hover:bg-red-50 dark:hover:bg-red-950/30"
@@ -193,9 +206,10 @@ export default function Admin() {
             </div>
           )}
         </div>
-      ) : (
-        <AdminCMS />
       )}
+      
+      {activeTab === 'projects' && <AdminCMS />}
+      {activeTab === 'content' && <SiteContentCMS />}
     </div>
   );
 }

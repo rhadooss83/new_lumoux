@@ -1,10 +1,38 @@
 import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { useState, useEffect } from "react";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 export default function About() {
   const location = useLocation();
   const isAboutPage = location.pathname === "/about";
+  const [content, setContent] = useState<any>({
+    profilePicture: "/profile-picture.webp",
+    aboutText: "Since 2009, I work for the family company, where I manage the design team for our products. I started by designing myself, and due to the increasing volume of work, I started a small team. Now, I coordinate the team, and advice them, thanks to my experience, about the designs they do for our customers. The passion for web design came naturally, and never left me since.\n\nSo, creating LumoUX was the right thing to do. By following other great designers I've learned the bases, and I am still learning, and now I can craft, all by myself, designs that impress. Clear, functional and human designs. Not templates, just pure imagination. There are only 2 things you need to know about me, both important and necessary IMO.\n\nFirst one, I like what I do, both at my job, also with LumoUX, because I am a creative person, and I love being creative.\n\nThe second one, is that I don't quit. No matter how hard it gets, I challenge myself until I get the desired outcome. I'm not ashamed to ask for help, when things seem to overpower me, but I don't quit!\n\nThat being said, I invite you to discover your new website appearance. Right here at LumoUX."
+  });
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const docRef = doc(db, 'settings', 'content');
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setContent({
+            profilePicture: data.profilePicture || "/profile-picture.webp",
+            aboutText: data.aboutText || content.aboutText
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching site content:", error);
+      }
+    };
+    fetchContent();
+  }, []);
+
+  const paragraphs = content.aboutText.split('\n\n').filter((p: string) => p.trim() !== '');
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 py-16 md:py-20 flex flex-col items-center">
@@ -32,17 +60,11 @@ export default function About() {
         >
           <div className="absolute inset-0 rounded-full glow-gradient-border">
             <div className="w-full h-full rounded-full overflow-hidden bg-zinc-200 dark:bg-zinc-800">
-              {/* 
-                USER INSTRUCTION: 
-                1. Upload your picture to the 'public' folder in your project.
-                2. Name it 'profile-picture.webp' (or change the src attribute below to match your file name).
-              */}
               <img
-                src="/profile-picture.webp"
+                src={content.profilePicture}
                 alt="Gabi Radu - UI/UX Designer"
                 className="w-full h-full object-cover"
                 onError={(e) => {
-                  // Fallback if the image is not found
                   e.currentTarget.src = "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop";
                 }}
               />
@@ -59,28 +81,13 @@ export default function About() {
         >
           <div className={`bg-white dark:bg-black rounded-[2rem] md:rounded-3xl p-6 md:p-10 h-full flex flex-col justify-center ${isAboutPage ? 'items-start text-left' : 'items-center md:items-start text-center md:text-left'}`}>
             <div className="text-zinc-700 dark:text-gray-300 text-base md:text-lg leading-relaxed mb-6 space-y-4">
-              <p>
-                Since 2009, I work for the family company, where I manage the design team for our products. I started by designing myself, and due to the increasing volume of work, I started a small team. Now, I coordinate the team, and advice them, thanks to my experience, about the designs they do for our customers. The passion for web design came naturally, and never left me since.
-              </p>
-              
               {isAboutPage ? (
-                <>
-                  <p>
-                    So, creating LumoUX was the right thing to do. By following other great designers I've learned the bases, and I am still learning, and now I can craft, all by myself, designs that impress. Clear, functional and human designs. Not templates, just pure imagination. There are only 2 things you need to know about me, both important and necessary IMO.
-                  </p>
-                  <p>
-                    First one, I like what I do, both at my job, also with LumoUX, because I am a creative person, and I love being creative.
-                  </p>
-                  <p>
-                    The second one, is that I don't quit. No matter how hard it gets, I challenge myself until I get the desired outcome. I'm not ashamed to ask for help, when things seem to overpower me, but I don't quit!
-                  </p>
-                  <p>
-                    That being said, I invite you to discover your new website appearance. Right here at LumoUX.
-                  </p>
-                </>
+                paragraphs.map((p: string, idx: number) => (
+                  <p key={idx}>{p}</p>
+                ))
               ) : (
                 <p>
-                  So, creating LumoUX was the right thing to do. By following other great designers I've learned the bases, and I am still learning...{" "}
+                  {paragraphs[0]}...{" "}
                   <Link to="/about" className="text-purple-600 dark:text-purple-400 font-medium hover:text-purple-500 dark:hover:text-purple-300 transition-colors inline-flex items-center gap-1">
                     read more
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

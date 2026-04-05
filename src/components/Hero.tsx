@@ -1,11 +1,38 @@
 import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useState, useEffect } from "react";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 export default function Hero() {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 1000], [0, 200]);
   const y2 = useTransform(scrollY, [0, 1000], [0, 100]);
   const opacity = useTransform(scrollY, [0, 500], [1, 0]);
+
+  const [content, setContent] = useState<any>({
+    heroTitle: 'Clear, functional, human-centered UI/UX design.',
+    heroSubtitle: 'We transform complex problems into minimal, high-performing digital experiences. A UI/UX design studio focused on websites design, branding and logo design, with a human-centric approach. Freelance UI/UX Designer for Startups & Founders world wide.'
+  });
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const docRef = doc(db, 'settings', 'content');
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setContent({
+            heroTitle: data.heroTitle || content.heroTitle,
+            heroSubtitle: data.heroSubtitle || content.heroSubtitle
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching site content:", error);
+      }
+    };
+    fetchContent();
+  }, []);
 
   return (
     <div className="relative z-10 flex flex-col items-center text-center pt-40 pb-20 px-4 min-h-[80vh] justify-center overflow-hidden">
@@ -43,7 +70,7 @@ export default function Hero() {
       >
         <div className="bg-white dark:bg-black rounded-[2rem] px-6 py-6 md:px-10 md:py-8 text-center">
           <p className="text-zinc-600 dark:text-gray-300 text-base md:text-lg leading-relaxed">
-            We transform complex problems into minimal, high-performing digital experiences. A UI/UX design studio focused on websites design, branding and logo design, with a human-centric approach. Freelance UI/UX Designer for Startups & Founders world wide.
+            {content.heroSubtitle}
           </p>
         </div>
       </motion.div>

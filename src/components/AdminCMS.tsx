@@ -75,9 +75,9 @@ export default function AdminCMS() {
           images: [...(editingProject.images || []), ...newUrls] 
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error uploading image:", error);
-      alert("Error uploading image.");
+      alert(`Error uploading image: ${error.message || "Unknown error"}\n\nIf this says 'unauthorized' or 'quota exceeded', you need to enable Firebase Storage and update its rules in your Firebase Console.`);
     }
     setUploading(false);
   };

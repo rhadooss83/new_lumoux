@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
 export default function Contact() {
@@ -11,6 +11,36 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const [content, setContent] = useState<any>({
+    contactTitle: 'Contact LumoUX',
+    contactSubtitle1: 'Contact LumoUX UI/UX design studio. Get in touch with me, Gabi Radu, for web design collaborations, branding projects, or freelance UI/UX work.',
+    contactSubtitle2: 'Clear, functional, human-centered UI/UX design for startups, SaaS products, and digital founders world wide.',
+    contactHomeText1: 'Currently taking on new projects for Summer 2026.',
+    contactHomeText2: 'Design-only studio — I partner with web developers to deliver production-ready Figma files and design handoffs. Let\'s create something extraordinary together!'
+  });
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const docRef = doc(db, 'settings', 'content');
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setContent({
+            contactTitle: data.contactTitle || content.contactTitle,
+            contactSubtitle1: data.contactSubtitle1 || content.contactSubtitle1,
+            contactSubtitle2: data.contactSubtitle2 || content.contactSubtitle2,
+            contactHomeText1: data.contactHomeText1 || content.contactHomeText1,
+            contactHomeText2: data.contactHomeText2 || content.contactHomeText2
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching site content:", error);
+      }
+    };
+    fetchContent();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -24,6 +54,7 @@ export default function Contact() {
       email: formData.get("email") as string,
       place: formData.get("place") as string,
       service: formData.get("service") as string,
+      message: formData.get("message") as string,
       createdAt: serverTimestamp(),
     };
 
@@ -64,10 +95,10 @@ export default function Contact() {
               <span className="w-2 h-2 mt-2 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.8)] shrink-0"></span>
               <div className="flex flex-col gap-1">
                 <span className="text-zinc-800 dark:text-gray-200 text-sm md:text-base font-medium">
-                  Currently taking on new projects for Summer 2026.
+                  {content.contactHomeText1}
                 </span>
                 <span className="text-zinc-600 dark:text-gray-400 text-sm md:text-base leading-relaxed">
-                  Design-only studio — I partner with web developers to deliver production-ready Figma files and design handoffs. Let's create something extraordinary together!
+                  {content.contactHomeText2}
                 </span>
               </div>
             </div>
@@ -86,7 +117,7 @@ export default function Contact() {
         </Helmet>
       )}
       <div className="mb-6 inline-flex items-center justify-center px-6 py-2 rounded-full glow-gradient-border bg-white dark:bg-black">
-        <span className="text-zinc-900 dark:text-white text-sm font-medium">Contact LumoUX</span>
+        <span className="text-zinc-900 dark:text-white text-sm font-medium">{content.contactTitle}</span>
       </div>
 
       <motion.div
@@ -99,10 +130,10 @@ export default function Contact() {
         <div className="bg-white dark:bg-black rounded-[2rem] md:rounded-3xl p-6 md:p-10 h-full flex flex-col">
           <div className="text-zinc-700 dark:text-gray-300 text-base md:text-lg leading-relaxed mb-10 space-y-4 text-center md:text-left">
             <p>
-              Contact LumoUX UI/UX design studio. Get in touch with me, Gabi Radu, for web design collaborations, branding projects, or freelance UI/UX work.
+              {content.contactSubtitle1}
             </p>
             <p>
-              Clear, functional, human-centered UI/UX design for startups, SaaS products, and digital founders world wide.
+              {content.contactSubtitle2}
             </p>
           </div>
 
@@ -172,6 +203,18 @@ export default function Contact() {
                 <option value="brand">Brand Identity</option>
                 <option value="logo">Logo Design</option>
               </select>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label htmlFor="message" className="text-sm font-medium text-zinc-600 dark:text-gray-400">Message</label>
+              <textarea
+                id="message"
+                name="message"
+                required
+                rows={4}
+                className="bg-zinc-100 dark:bg-zinc-900/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:border-purple-500 transition-colors resize-y"
+                placeholder="Tell me about your project..."
+              />
             </div>
 
             <div className="mt-4 flex flex-col items-center md:items-start gap-4">

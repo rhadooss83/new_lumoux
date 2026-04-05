@@ -190,11 +190,11 @@ export default function ProjectDetail() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-md p-4 md:p-8 cursor-zoom-out"
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-md p-4 md:p-8 cursor-zoom-out"
             onClick={() => setSelectedImageIndex(null)}
           >
             <button
-              className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors bg-black/50 hover:bg-black/80 rounded-full p-2 z-50"
+              className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors bg-black/50 hover:bg-black/80 rounded-full p-2 z-[100]"
               onClick={(e) => {
                 e.stopPropagation();
                 setSelectedImageIndex(null);
@@ -208,7 +208,7 @@ export default function ProjectDetail() {
             {validImages.length > 1 && (
               <>
                 <button
-                  className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors bg-black/50 hover:bg-black/80 rounded-full p-3 md:p-4 z-50"
+                  className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors bg-black/50 hover:bg-black/80 rounded-full p-3 md:p-4 z-[100]"
                   onClick={(e) => {
                     e.stopPropagation();
                     setSelectedImageIndex((prev) => (prev! - 1 + validImages.length) % validImages.length);
@@ -219,7 +219,7 @@ export default function ProjectDetail() {
                   </svg>
                 </button>
                 <button
-                  className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors bg-black/50 hover:bg-black/80 rounded-full p-3 md:p-4 z-50"
+                  className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors bg-black/50 hover:bg-black/80 rounded-full p-3 md:p-4 z-[100]"
                   onClick={(e) => {
                     e.stopPropagation();
                     setSelectedImageIndex((prev) => (prev! + 1) % validImages.length);

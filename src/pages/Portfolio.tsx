@@ -2,7 +2,7 @@ import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { collection, query, orderBy, getDocs } from "firebase/firestore";
+import { collection, query, orderBy, getDocs, doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { Project } from "../data/projects";
 
@@ -76,6 +76,27 @@ const ProjectCard = ({ project, index }: { project: any, index: number }) => {
 export default function Portfolio({ isHome = false }: { isHome?: boolean }) {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
+  const [siteContent, setSiteContent] = useState<any>({
+    portfolioTitle: 'A glimpse into my creative work.'
+  });
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const docRef = doc(db, 'settings', 'content');
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setSiteContent({
+            portfolioTitle: data.portfolioTitle || siteContent.portfolioTitle
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching site content:", error);
+      }
+    };
+    fetchContent();
+  }, []);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -109,7 +130,7 @@ export default function Portfolio({ isHome = false }: { isHome?: boolean }) {
         </Helmet>
       )}
       <div className="mb-12 md:mb-16 inline-flex items-center justify-center px-6 py-2 rounded-full glow-gradient-border bg-white dark:bg-black">
-        <span className="text-zinc-900 dark:text-white text-sm font-medium">A glimpse into my creative work.</span>
+        <span className="text-zinc-900 dark:text-white text-sm font-medium">{siteContent.portfolioTitle}</span>
       </div>
 
       {loading ? (

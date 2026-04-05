@@ -10,9 +10,10 @@
         "email": { "type": "string", "format": "email", "description": "Email of the sender" },
         "place": { "type": "string", "description": "Location of the sender" },
         "service": { "type": "string", "description": "Requested service" },
+        "message": { "type": "string", "description": "Message content" },
         "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp of submission" }
       },
-      "required": ["name", "phone", "email", "place", "service", "createdAt"]
+      "required": ["name", "phone", "email", "place", "service", "message", "createdAt"]
     },
     "Project": {
       "title": "Project",
@@ -27,6 +28,40 @@
         "order": { "type": "number", "description": "Order of the project in the portfolio" }
       },
       "required": ["id", "title", "description", "thumbnail", "images"]
+    },
+    "SiteContent": {
+      "title": "SiteContent",
+      "description": "Global site content like profile picture and about text.",
+      "type": "object",
+      "properties": {
+        "profilePicture": { "type": "string", "description": "URL of the profile picture" },
+        "aboutText": { "type": "string", "description": "About me text" },
+        "heroTitle": { "type": "string", "description": "Hero section title" },
+        "heroSubtitle": { "type": "string", "description": "Hero section subtitle" },
+        "portfolioTitle": { "type": "string", "description": "Portfolio section title" },
+        "servicesTitle": { "type": "string", "description": "Services section title" },
+        "servicesSubtitle": { "type": "string", "description": "Services section subtitle" },
+        "servicesBottomText1": { "type": "string", "description": "Services bottom text paragraph 1" },
+        "servicesBottomText2": { "type": "string", "description": "Services bottom text paragraph 2" },
+        "servicesList": { 
+          "type": "array", 
+          "items": { 
+            "type": "object",
+            "properties": {
+              "title": { "type": "string" },
+              "description": { "type": "string" },
+              "expandedText": { "type": "string" },
+              "icon": { "type": "string" }
+            }
+          }, 
+          "description": "List of services" 
+        },
+        "contactTitle": { "type": "string", "description": "Contact section title" },
+        "contactSubtitle1": { "type": "string", "description": "Contact section subtitle 1" },
+        "contactSubtitle2": { "type": "string", "description": "Contact section subtitle 2" },
+        "contactHomeText1": { "type": "string", "description": "Contact section home text 1" },
+        "contactHomeText2": { "type": "string", "description": "Contact section home text 2" }
+      }
     }
   },
   "firestore": {
@@ -37,6 +72,10 @@
     "/projects/{projectId}": {
       "schema": { "$ref": "#/entities/Project" },
       "description": "Collection of portfolio projects."
+    },
+    "/settings/content": {
+      "schema": { "$ref": "#/entities/SiteContent" },
+      "description": "Global site content document."
     }
   }
 }
