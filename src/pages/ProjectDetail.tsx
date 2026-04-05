@@ -1,16 +1,40 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { projects } from "../data/projects";
 import { Helmet } from "react-helmet-async";
+import { collection, query, orderBy, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
+import { Project } from "../data/projects";
 
 export default function ProjectDetail() {
   const { id } = useParams<{ id: string }>();
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const q = query(collection(db, "projects"), orderBy("order", "asc"));
+        const snapshot = await getDocs(q);
+        const fetchedProjects = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })) as Project[];
+        setProjects(fetchedProjects);
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProjects();
+  }, []);
+
   const projectIndex = projects.findIndex((p) => p.id === id);
   const project = projects[projectIndex];
   
   const nextProjectIndex = (projectIndex + 1) % projects.length;
-  const nextProject = projects[nextProjectIndex];
+  const nextProject = projects.length > 0 ? projects[nextProjectIndex] : null;
 
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -24,6 +48,14 @@ export default function ProjectDetail() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
+
+  if (loading) {
+    return (
+      <div className="w-full min-h-screen flex justify-center items-center">
+        <div className="w-8 h-8 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   if (!project) {
     return <Navigate to="/portfolio" replace />;
@@ -43,6 +75,20 @@ export default function ProjectDetail() {
         <title>{project.title} | LumoUX Portfolio</title>
         <meta name="description" content={project.description} />
       </Helmet>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="w-full text-center mb-8 md:mb-12"
+      >
+        <h1 className="text-4xl md:text-6xl font-bold tracking-tighter text-zinc-900 dark:text-white mb-6">
+          {project.title}
+        </h1>
+        <p className="text-zinc-600 dark:text-gray-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+          {project.description}
+        </p>
+      </motion.div>
+
       <div className="w-full flex justify-between items-center mb-8 md:mb-12">
         <Link
           to="/portfolio"
@@ -66,20 +112,6 @@ export default function ProjectDetail() {
           </Link>
         )}
       </div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="w-full text-center mb-12 md:mb-16"
-      >
-        <h1 className="text-4xl md:text-6xl font-bold tracking-tighter text-zinc-900 dark:text-white mb-6">
-          {project.title}
-        </h1>
-        <p className="text-zinc-600 dark:text-gray-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-          {project.description}
-        </p>
-      </motion.div>
 
       <div className="w-full relative group">
         <motion.div

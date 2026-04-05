@@ -3,13 +3,15 @@ import { collection, query, orderBy, onSnapshot, deleteDoc, doc } from 'firebase
 import { signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from 'firebase/auth';
 import { db, auth } from '../firebase';
 import { Helmet } from 'react-helmet-async';
-import { Trash2, LogOut } from 'lucide-react';
+import { Trash2, LogOut, MessageSquare, LayoutGrid } from 'lucide-react';
+import AdminCMS from '../components/AdminCMS';
 
 export default function Admin() {
   const [user, setUser] = useState<any>(null);
   const [messages, setMessages] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [loginError, setLoginError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<'messages' | 'projects'>('messages');
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -99,8 +101,8 @@ export default function Admin() {
         <title>Admin Dashboard | LumoUX</title>
       </Helmet>
       
-      <div className="flex justify-between items-center mb-12">
-        <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Messages Dashboard</h1>
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Admin Dashboard</h1>
         <button
           onClick={handleLogout}
           className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
@@ -110,61 +112,90 @@ export default function Admin() {
         </button>
       </div>
 
-      <div className="bg-white dark:bg-zinc-950 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-xl overflow-hidden">
-        {messages.length === 0 ? (
-          <div className="p-12 text-center text-zinc-500 dark:text-zinc-400">
-            No messages yet.
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-zinc-50 dark:bg-zinc-900/50 border-b border-zinc-200 dark:border-zinc-800">
-                  <th className="p-4 font-medium text-zinc-600 dark:text-zinc-400">Date</th>
-                  <th className="p-4 font-medium text-zinc-600 dark:text-zinc-400">Name</th>
-                  <th className="p-4 font-medium text-zinc-600 dark:text-zinc-400">Contact</th>
-                  <th className="p-4 font-medium text-zinc-600 dark:text-zinc-400">Service</th>
-                  <th className="p-4 font-medium text-zinc-600 dark:text-zinc-400">Place</th>
-                  <th className="p-4 font-medium text-zinc-600 dark:text-zinc-400 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {messages.map((msg) => (
-                  <tr key={msg.id} className="border-b border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900/30 transition-colors">
-                    <td className="p-4 text-sm text-zinc-900 dark:text-zinc-300">
-                      {msg.createdAt?.toDate ? msg.createdAt.toDate().toLocaleDateString() : 'Just now'}
-                    </td>
-                    <td className="p-4 text-sm font-medium text-zinc-900 dark:text-white">
-                      {msg.name}
-                    </td>
-                    <td className="p-4 text-sm text-zinc-600 dark:text-zinc-400">
-                      <div>{msg.email}</div>
-                      <div>{msg.phone}</div>
-                    </td>
-                    <td className="p-4 text-sm text-zinc-900 dark:text-zinc-300">
-                      <span className="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-md text-xs font-medium uppercase tracking-wider">
-                        {msg.service}
-                      </span>
-                    </td>
-                    <td className="p-4 text-sm text-zinc-600 dark:text-zinc-400">
-                      {msg.place}
-                    </td>
-                    <td className="p-4 text-sm text-right">
-                      <button
-                        onClick={() => handleDelete(msg.id)}
-                        className="p-2 text-zinc-400 hover:text-red-500 transition-colors rounded-lg hover:bg-red-50 dark:hover:bg-red-950/30"
-                        title="Delete message"
-                      >
-                        <Trash2 size={18} />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+      <div className="flex gap-4 mb-8 border-b border-zinc-200 dark:border-zinc-800 pb-px">
+        <button
+          onClick={() => setActiveTab('messages')}
+          className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+            activeTab === 'messages' 
+              ? 'border-purple-500 text-purple-600 dark:text-purple-400' 
+              : 'border-transparent text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
+          }`}
+        >
+          <MessageSquare size={18} />
+          Messages
+        </button>
+        <button
+          onClick={() => setActiveTab('projects')}
+          className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+            activeTab === 'projects' 
+              ? 'border-purple-500 text-purple-600 dark:text-purple-400' 
+              : 'border-transparent text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
+          }`}
+        >
+          <LayoutGrid size={18} />
+          Projects (CMS)
+        </button>
       </div>
+
+      {activeTab === 'messages' ? (
+        <div className="bg-white dark:bg-zinc-950 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-xl overflow-hidden">
+          {messages.length === 0 ? (
+            <div className="p-12 text-center text-zinc-500 dark:text-zinc-400">
+              No messages yet.
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-zinc-50 dark:bg-zinc-900/50 border-b border-zinc-200 dark:border-zinc-800">
+                    <th className="p-4 font-medium text-zinc-600 dark:text-zinc-400">Date</th>
+                    <th className="p-4 font-medium text-zinc-600 dark:text-zinc-400">Name</th>
+                    <th className="p-4 font-medium text-zinc-600 dark:text-zinc-400">Contact</th>
+                    <th className="p-4 font-medium text-zinc-600 dark:text-zinc-400">Service</th>
+                    <th className="p-4 font-medium text-zinc-600 dark:text-zinc-400">Place</th>
+                    <th className="p-4 font-medium text-zinc-600 dark:text-zinc-400 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {messages.map((msg) => (
+                    <tr key={msg.id} className="border-b border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900/30 transition-colors">
+                      <td className="p-4 text-sm text-zinc-900 dark:text-zinc-300">
+                        {msg.createdAt?.toDate ? msg.createdAt.toDate().toLocaleDateString() : 'Just now'}
+                      </td>
+                      <td className="p-4 text-sm font-medium text-zinc-900 dark:text-white">
+                        {msg.name}
+                      </td>
+                      <td className="p-4 text-sm text-zinc-600 dark:text-zinc-400">
+                        <div>{msg.email}</div>
+                        <div>{msg.phone}</div>
+                      </td>
+                      <td className="p-4 text-sm text-zinc-900 dark:text-zinc-300">
+                        <span className="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-md text-xs font-medium uppercase tracking-wider">
+                          {msg.service}
+                        </span>
+                      </td>
+                      <td className="p-4 text-sm text-zinc-600 dark:text-zinc-400">
+                        {msg.place}
+                      </td>
+                      <td className="p-4 text-sm text-right">
+                        <button
+                          onClick={() => handleDelete(msg.id)}
+                          className="p-2 text-zinc-400 hover:text-red-500 transition-colors rounded-lg hover:bg-red-50 dark:hover:bg-red-950/30"
+                          title="Delete message"
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      ) : (
+        <AdminCMS />
+      )}
     </div>
   );
 }

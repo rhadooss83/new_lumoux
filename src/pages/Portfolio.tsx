@@ -1,8 +1,10 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
-import { projects } from "../data/projects";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
+import { collection, query, orderBy, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
+import { Project } from "../data/projects";
 
 const ProjectCard = ({ project, index }: { project: any, index: number }) => {
   const x = useMotionValue(0);
@@ -72,6 +74,28 @@ const ProjectCard = ({ project, index }: { project: any, index: number }) => {
 };
 
 export default function Portfolio({ isHome = false }: { isHome?: boolean }) {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const q = query(collection(db, "projects"), orderBy("order", "asc"));
+        const snapshot = await getDocs(q);
+        const fetchedProjects = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })) as Project[];
+        setProjects(fetchedProjects);
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProjects();
+  }, []);
+
   const displayProjects = isHome 
     ? projects.filter(p => ["serene-spa-and-wellness", "alpine-serenity-inn", "health-center"].includes(p.id))
     : projects;
@@ -88,11 +112,21 @@ export default function Portfolio({ isHome = false }: { isHome?: boolean }) {
         <span className="text-zinc-900 dark:text-white text-sm font-medium">A glimpse into my creative work.</span>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 w-full">
-        {displayProjects.map((project, index) => (
-          <ProjectCard key={project.id} project={project} index={index} />
-        ))}
-      </div>
+      {loading ? (
+        <div className="flex justify-center items-center py-20">
+          <div className="w-8 h-8 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      ) : displayProjects.length === 0 ? (
+        <div className="text-center py-20 text-zinc-500 dark:text-zinc-400">
+          No projects found.
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 w-full">
+          {displayProjects.map((project, index) => (
+            <ProjectCard key={project.id} project={project} index={index} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

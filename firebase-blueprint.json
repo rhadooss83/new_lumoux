@@ -13,12 +13,30 @@
         "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp of submission" }
       },
       "required": ["name", "phone", "email", "place", "service", "createdAt"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "A portfolio project.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique identifier for the project" },
+        "title": { "type": "string", "description": "Title of the project" },
+        "description": { "type": "string", "description": "Description of the project" },
+        "thumbnail": { "type": "string", "description": "URL of the thumbnail image" },
+        "images": { "type": "array", "items": { "type": "string" }, "description": "Array of image URLs" },
+        "order": { "type": "number", "description": "Order of the project in the portfolio" }
+      },
+      "required": ["id", "title", "description", "thumbnail", "images"]
     }
   },
   "firestore": {
     "/messages/{messageId}": {
       "schema": { "$ref": "#/entities/ContactMessage" },
       "description": "Collection of contact form messages."
+    },
+    "/projects/{projectId}": {
+      "schema": { "$ref": "#/entities/Project" },
+      "description": "Collection of portfolio projects."
     }
   }
 }
