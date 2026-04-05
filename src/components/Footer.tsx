@@ -6,8 +6,8 @@ export default function Footer() {
           <div className="flex items-center gap-2">
             <span className="text-2xl font-display font-bold tracking-tight text-zinc-900 dark:text-white">LumoUX</span>
           </div>
-          <a href="mailto:hello@lumouxdesign.eu" className="text-zinc-500 dark:text-gray-400 hover:text-zinc-900 dark:hover:text-white transition-colors text-sm">
-            hello@lumouxdesign.eu
+          <a href="mailto:rhadooss83@gmail.com" className="text-zinc-500 dark:text-gray-400 hover:text-zinc-900 dark:hover:text-white transition-colors text-sm">
+            rhadooss83@gmail.com
           </a>
         </div>
 
