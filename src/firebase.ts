@@ -5,6 +5,7 @@ import { getAuth } from 'firebase/auth';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
+  // Hardcoded config to bypass Vercel environment variable issues
   apiKey: "AIzaSyCzzyGilyxFh55pcGMWE8almKMXsVViKVg",
   authDomain: "lumoux.firebaseapp.com",
   projectId: "lumoux",
