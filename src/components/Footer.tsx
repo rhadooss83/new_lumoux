@@ -1,11 +1,14 @@
+import { Link } from "react-router-dom";
+
 export default function Footer() {
   return (
     <footer className="relative z-10 w-full py-12 border-t border-zinc-200 dark:border-white/5 bg-zinc-50 dark:bg-black transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex flex-col md:flex-row items-center gap-6">
-          <div className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+            <img src="/logo-dot.svg" alt="LumoUX Logo" className="w-5 h-5" />
             <span className="text-2xl font-display font-bold tracking-tight text-zinc-900 dark:text-white">LumoUX</span>
-          </div>
+          </Link>
           <a href="mailto:rhadooss83@gmail.com" className="text-zinc-500 dark:text-gray-400 hover:text-zinc-900 dark:hover:text-white transition-colors text-sm">
             rhadooss83@gmail.com
           </a>

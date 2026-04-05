@@ -47,7 +47,8 @@ export default function Navbar() {
             : "top-6 bg-white dark:bg-zinc-950 text-zinc-900 dark:text-white shadow-[0_0_30px_rgba(0,0,0,0.1)] dark:shadow-[0_0_30px_rgba(255,255,255,0.05)]"
         )}
       >
-        <Link to="/" className="text-xl font-bold tracking-tight">
+        <Link to="/" className="text-xl font-bold tracking-tight flex items-center gap-2">
+          <img src="/logo-dot.svg" alt="LumoUX Logo" className="w-5 h-5" />
           LumoUX
         </Link>
 
