@@ -7,6 +7,8 @@ import { db } from "../firebase";
 
 export default function Contact() {
   const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const initialService = searchParams.get("service") || "";
   const isContactPage = location.pathname === "/contact";
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -190,19 +192,15 @@ export default function Contact() {
 
             <div className="flex flex-col gap-2">
               <label htmlFor="service" className="text-sm font-medium text-zinc-600 dark:text-gray-400">Service Required</label>
-              <select
+              <input
+                type="text"
                 id="service"
                 name="service"
                 required
-                defaultValue=""
-                className="bg-zinc-100 dark:bg-zinc-900/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:border-purple-500 transition-colors appearance-none"
-                style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239CA3AF'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem center', backgroundSize: '1.5em' }}
-              >
-                <option value="" disabled>Select a service...</option>
-                <option value="ui-ux">UI/UX Design</option>
-                <option value="brand">Brand Identity</option>
-                <option value="logo">Logo Design</option>
-              </select>
+                defaultValue={initialService}
+                className="bg-zinc-100 dark:bg-zinc-900/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:border-purple-500 transition-colors"
+                placeholder="e.g. UI/UX Design, Starter Website"
+              />
             </div>
 
             <div className="flex flex-col gap-2">
@@ -215,6 +213,19 @@ export default function Contact() {
                 className="bg-zinc-100 dark:bg-zinc-900/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:border-purple-500 transition-colors resize-y"
                 placeholder="Tell me about your project..."
               />
+            </div>
+
+            <div className="flex items-start gap-3 mt-2">
+              <input
+                type="checkbox"
+                id="gdpr"
+                name="gdpr"
+                required
+                className="mt-1 w-4 h-4 rounded border-zinc-300 text-purple-600 focus:ring-purple-500"
+              />
+              <label htmlFor="gdpr" className="text-sm text-zinc-600 dark:text-gray-400 leading-relaxed">
+                I agree to the processing of my personal data according to the Privacy Policy.
+              </label>
             </div>
 
             <div className="mt-4 flex flex-col items-center md:items-start gap-4">

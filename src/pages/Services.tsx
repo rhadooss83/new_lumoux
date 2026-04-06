@@ -5,6 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import ProductizedServices from "../components/ProductizedServices";
 
 const defaultServices = [
   {
@@ -23,8 +24,14 @@ const defaultServices = [
     title: "Logo Design",
     description: "Turning ideas into high-quality logos.",
     expandedText: "I transform ideas into high-quality, timeless logos that communicate identity clearly, balance aesthetics with strategy, and elevate brand recognition instantly.",
-    icon: "MonitorSmartphone",
+    icon: "PenTool",
   },
+  {
+    title: "Web Design Packages",
+    description: "Launch your online presence fast with a modern, responsive site.",
+    expandedText: "Perfect for clients starting from scratch or needing a redesign. I build clean, mobile-responsive websites with basic branding to get your business online quickly and professionally.",
+    icon: "Globe",
+  }
 ];
 
 const ServiceCard: React.FC<{ service: any, index: number, isServicesPage: boolean }> = ({ service, index, isServicesPage }) => {
@@ -43,7 +50,7 @@ const ServiceCard: React.FC<{ service: any, index: number, isServicesPage: boole
       onMouseLeave={() => setIsHovered(false)}
       className={`rounded-[2rem] glow-gradient-border card-hover transition-all duration-300 ${isServicesPage ? '' : 'hover:scale-105'}`}
     >
-      <div className="bg-white dark:bg-black rounded-[2rem] p-6 md:p-8 h-full flex flex-col items-center text-center">
+      <div className="bg-white dark:bg-black rounded-[2rem] p-6 md:p-8 flex flex-col items-center text-center">
         <div className="mb-6 relative w-12 h-12 flex items-center justify-center">
           {/* Top Left */}
           <motion.div
@@ -102,8 +109,8 @@ const ServiceCard: React.FC<{ service: any, index: number, isServicesPage: boole
             <IconComponent className="w-8 h-8 text-zinc-900 dark:text-white" />
           </motion.div>
         </div>
-        <h4 className="text-xl font-semibold mb-3 md:mb-4 text-zinc-900 dark:text-white">{service.title}</h4>
-        <p className="text-sm text-zinc-600 dark:text-gray-400 leading-relaxed min-h-[2.5rem] md:min-h-[3rem]">{service.description}</p>
+        <h4 className="text-xl font-semibold mb-3 md:mb-4 text-zinc-900 dark:text-white h-[3.5rem] flex items-center justify-center">{service.title}</h4>
+        <p className="text-sm text-zinc-600 dark:text-gray-400 leading-relaxed h-[8.5rem] flex items-start justify-center">{service.description}</p>
         
         {isServicesPage && (
           <AnimatePresence>
@@ -151,7 +158,7 @@ export default function Services() {
             servicesSubtitle: data.servicesSubtitle || content.servicesSubtitle,
             servicesBottomText1: data.servicesBottomText1 || content.servicesBottomText1,
             servicesBottomText2: data.servicesBottomText2 || content.servicesBottomText2,
-            servicesList: data.servicesList && data.servicesList.length > 0 ? data.servicesList : content.servicesList
+            servicesList: defaultServices
           });
         }
       } catch (error) {
@@ -177,7 +184,7 @@ export default function Services() {
         {content.servicesSubtitle}
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full max-w-sm md:max-w-none mx-auto items-start">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 w-full max-w-sm md:max-w-none mx-auto items-start">
         {content.servicesList.map((service: any, index: number) => (
           <ServiceCard key={index} service={service} index={index} isServicesPage={isServicesPage} />
         ))}
@@ -202,13 +209,54 @@ export default function Services() {
         </motion.div>
       )}
 
-      <div className="mt-12 md:mt-16 flex justify-center">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="mt-12 md:mt-16 w-full max-w-2xl mx-auto bg-zinc-50 dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-800 rounded-[2rem] p-8 md:p-10"
+      >
+        <h3 className="text-xl md:text-2xl font-bold text-zinc-900 dark:text-white mb-6 text-center">
+          This is for you if:
+        </h3>
+        <ul className="space-y-4 text-zinc-700 dark:text-gray-300 max-w-md mx-auto">
+          <li className="flex items-start gap-3">
+            <span className="text-purple-500 font-bold mt-0.5">•</span>
+            <span>You don’t have a website yet but want to start strong</span>
+          </li>
+          <li className="flex items-start gap-3">
+            <span className="text-purple-500 font-bold mt-0.5">•</span>
+            <span>Your current website looks outdated or unprofessional</span>
+          </li>
+          <li className="flex items-start gap-3">
+            <span className="text-purple-500 font-bold mt-0.5">•</span>
+            <span>You’re not getting customers from your site</span>
+          </li>
+          <li className="flex items-start gap-3">
+            <span className="text-purple-500 font-bold mt-0.5">•</span>
+            <span>You want something simple, clean, and effective</span>
+          </li>
+        </ul>
+      </motion.div>
+
+      <div className="w-full mt-12 md:mt-16">
+        <ProductizedServices isHome={!isServicesPage} />
+      </div>
+
+      <div className="mt-8 md:mt-10 flex flex-col items-center gap-4 pb-12">
         <Link
           to="/contact"
-          className="btn-glow px-8 py-4 rounded-full text-sm font-bold text-zinc-900 dark:text-white bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:scale-105 transition-all duration-300"
+          className="w-full sm:w-auto px-8 py-4 rounded-full text-base font-bold text-white bg-purple-600 hover:bg-purple-500 shadow-[0_0_30px_rgba(147,51,234,0.5)] hover:shadow-[0_0_40px_rgba(147,51,234,0.7)] hover:scale-105 transition-all duration-300 text-center"
         >
-          Request a Design
+          👉 Get your free website audit
         </Link>
+        <div className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400 font-medium">
+          <span>Free</span>
+          <span className="w-1 h-1 rounded-full bg-zinc-300 dark:bg-zinc-600"></span>
+          <span>No commitment</span>
+          <span className="w-1 h-1 rounded-full bg-zinc-300 dark:bg-zinc-600"></span>
+          <span>Quick feedback</span>
+        </div>
       </div>
     </div>
   );

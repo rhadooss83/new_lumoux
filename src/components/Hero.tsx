@@ -11,8 +11,8 @@ export default function Hero() {
   const opacity = useTransform(scrollY, [0, 500], [1, 0]);
 
   const [content, setContent] = useState<any>({
-    heroTitle: 'Clear, functional, human-centered UI/UX design.',
-    heroSubtitle: 'We transform complex problems into minimal, high-performing digital experiences. A UI/UX design studio focused on websites design, branding and logo design, with a human-centric approach. Freelance UI/UX Designer for Startups & Founders world wide.'
+    heroTitle: 'Websites that turn visitors into customers',
+    heroSubtitle: 'I help startups and small brands build clean, modern websites that actually bring results — without the high agency cost.'
   });
 
   useEffect(() => {
@@ -22,9 +22,12 @@ export default function Hero() {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           const data = docSnap.data();
+          // We are temporarily ignoring data.heroTitle and data.heroSubtitle 
+          // from Firebase so the new audit text shows up for the user.
+          // The user can update this in their CMS later.
           setContent({
-            heroTitle: data.heroTitle || content.heroTitle,
-            heroSubtitle: data.heroSubtitle || content.heroSubtitle
+            heroTitle: content.heroTitle, 
+            heroSubtitle: content.heroSubtitle
           });
         }
       } catch (error) {
@@ -36,12 +39,17 @@ export default function Hero() {
 
   return (
     <div className="relative z-10 flex flex-col items-center text-center pt-40 pb-20 px-4 min-h-[80vh] justify-center overflow-hidden">
+      {/* Background Brand Element */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[15vw] font-display font-bold text-zinc-900/20 dark:text-white/20 blur-[2px] tracking-[0.2em] select-none pointer-events-none z-0">
+        CLARITY
+      </div>
+
       <motion.div 
         style={{ y: y1, opacity }}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="relative mb-6 flex flex-col items-center"
+        className="relative mb-6 flex flex-col items-center z-10"
       >
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-600 dark:text-purple-400 text-sm font-medium mb-8">
           <span className="relative flex h-2 w-2">
@@ -51,49 +59,44 @@ export default function Hero() {
           LumoUX Design Studio
         </div>
         
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter flex flex-wrap justify-center items-center gap-3 md:gap-4 mb-8">
-          <span className="relative z-10 px-6 py-2 md:px-8 md:py-4 bg-zinc-200/40 dark:bg-white/5 backdrop-blur-md border border-zinc-300/50 dark:border-white/10 rounded-full text-zinc-900 dark:text-white glass-glow">
-            Clarity
-          </span>
-          <span className="text-zinc-500 dark:text-zinc-400/80 blur-[2px] transition-all duration-700 hover:blur-none hover:text-zinc-900 dark:hover:text-white cursor-default">
-            through design
-          </span>
+        <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight text-zinc-900 dark:text-white mb-6 max-w-4xl mx-auto">
+          {content.heroTitle}
         </h1>
-      </motion.div>
-
-      <motion.div 
-        style={{ y: y2, opacity }}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="rounded-[2rem] glow-gradient-border mb-10 max-w-3xl mx-auto"
-      >
-        <div className="bg-white dark:bg-black rounded-[2rem] px-6 py-6 md:px-10 md:py-8 text-center">
-          <p className="text-zinc-600 dark:text-gray-300 text-base md:text-lg leading-relaxed">
-            {content.heroSubtitle}
-          </p>
-        </div>
+        
+        <p className="text-zinc-600 dark:text-gray-300 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-10">
+          {content.heroSubtitle}
+        </p>
       </motion.div>
 
       <motion.div
         style={{ y: y2, opacity }}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.4 }}
-        className="flex flex-col sm:flex-row gap-4"
+        transition={{ duration: 0.8, delay: 0.2 }}
+        className="relative z-10 flex flex-col items-center w-full max-w-md mx-auto"
       >
-        <Link
-          to="/portfolio"
-          className="btn-glow px-8 py-4 rounded-full text-sm font-bold text-zinc-900 dark:text-white bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:scale-105 transition-all duration-300"
-        >
-          View Portfolio
-        </Link>
-        <Link
-          to="/services"
-          className="px-8 py-4 rounded-full text-sm font-bold text-zinc-700 dark:text-zinc-300 bg-white dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-white transition-all duration-300 shadow-sm"
-        >
-          Our Services
-        </Link>
+        <div className="flex flex-col sm:flex-row gap-4 w-full justify-center mb-4">
+          <Link
+            to="/contact"
+            className="w-full sm:w-auto px-8 py-4 rounded-full text-base font-bold text-white bg-purple-600 hover:bg-purple-500 shadow-[0_0_30px_rgba(147,51,234,0.5)] hover:shadow-[0_0_40px_rgba(147,51,234,0.7)] hover:scale-105 transition-all duration-300 text-center"
+          >
+            👉 Get your free website audit
+          </Link>
+          <Link
+            to="/portfolio"
+            className="w-full sm:w-auto px-8 py-4 rounded-full text-base font-bold text-zinc-700 dark:text-zinc-300 bg-white dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-white transition-all duration-300 shadow-sm text-center"
+          >
+            View Portfolio
+          </Link>
+        </div>
+        
+        <div className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400 font-medium">
+          <span>Free</span>
+          <span className="w-1 h-1 rounded-full bg-zinc-300 dark:bg-zinc-600"></span>
+          <span>No commitment</span>
+          <span className="w-1 h-1 rounded-full bg-zinc-300 dark:bg-zinc-600"></span>
+          <span>Quick feedback</span>
+        </div>
       </motion.div>
     </div>
   );

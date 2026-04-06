@@ -8,8 +8,8 @@ export default function SiteContentCMS() {
   const [content, setContent] = useState<any>({
     profilePicture: '',
     aboutText: '',
-    heroTitle: 'Clear, functional, human-centered UI/UX design.',
-    heroSubtitle: 'I design digital experiences that are intuitive, engaging, and built to convert.',
+    heroTitle: 'Websites that turn visitors into customers',
+    heroSubtitle: 'I help startups and small brands build clean, modern websites that actually bring results — without the high agency cost.',
     portfolioTitle: 'A glimpse into my creative work.',
     servicesTitle: 'Creative Expertise & Services',
     servicesSubtitle: 'Clear, functional, human-centered UI/UX design for startups, SaaS products, and digital founders world wide.',
@@ -32,10 +32,66 @@ export default function SiteContentCMS() {
         title: "Logo Design",
         description: "Turning ideas into high-quality logos.",
         expandedText: "I transform ideas into high-quality, timeless logos that communicate identity clearly, balance aesthetics with strategy, and elevate brand recognition instantly.",
-        icon: "MonitorSmartphone",
+        icon: "PenTool",
+      },
+      {
+        title: "Starter Websites",
+        description: "Launch your online presence fast with a modern, responsive site.",
+        expandedText: "Perfect for clients starting from scratch. I build clean, mobile-responsive websites (1-3 pages) with basic branding to get your business online quickly and professionally.",
+        icon: "Globe",
+      },
+      {
+        title: "Website Redesign",
+        description: "Turn your outdated website into a powerful conversion tool.",
+        expandedText: "I conduct a thorough UX audit and completely redesign your existing site, improving its structure, flow, and aesthetics to maximize user engagement and conversions.",
+        icon: "RefreshCw",
+      },
+      {
+        title: "Landing Pages",
+        description: "High-converting pages designed specifically for your ads and products.",
+        expandedText: "Focused entirely on conversion. I design fast-loading, mobile-optimized landing pages with clear call-to-actions that turn your visitors into paying customers.",
+        icon: "MousePointerClick",
       }
     ],
-    contactTitle: 'Contact LumoUX',
+    pricingCategories: [
+      {
+        title: "Web Design Packages",
+        description: "Transparent pricing for high-quality web design. Choose the package that fits your current needs.",
+        offers: [
+          { title: "Starter Website", price: "€80 – €200", target: "For clients with nothing yet", features: ["1–3 pages", "Modern UI", "Mobile responsive", "Basic branding"], outcome: "Launch your online presence fast", popular: false },
+          { title: "Website Redesign", price: "€150 – €250", target: "For clients with bad sites", features: ["UX audit", "Full redesign", "Improved structure", "Conversion optimization"], outcome: "Turn your current website into a conversion tool", popular: true },
+          { title: "Landing Page", price: "€40 – €100", target: "For ads / products", features: ["Conversion-focused design", "Clear call-to-actions", "Fast loading", "Mobile optimized"], outcome: "Designed to convert visitors into customers", popular: false }
+        ]
+      },
+      {
+        title: "UI/UX Design",
+        description: "User-centered design solutions to improve your digital product.",
+        offers: [
+          { title: "UI Page Design", price: "€40 – €90", target: "Clean, modern design for a single page", features: ["1 page (home or landing)", "Desktop + mobile version", "Clean layout & hierarchy"], outcome: "A beautiful, functional single page", popular: false },
+          { title: "Multi-Page UI Design", price: "€100 – €220", target: "Consistent design across multiple pages", features: ["3–5 pages", "Consistent style system", "Basic UX structure"], outcome: "A cohesive multi-page experience", popular: true },
+          { title: "UX + UI Improvement", price: "€120 – €250", target: "Improve usability of an existing site", features: ["Quick UX audit", "Redesigned key pages", "Better structure + flow"], outcome: "Enhanced usability and clarity", popular: false }
+        ]
+      },
+      {
+        title: "Brand Identity",
+        description: "Distinctive visual identities that connect with your audience.",
+        offers: [
+          { title: "Basic Brand Starter", price: "€50 – €120", target: "Simple brand foundation to get started", features: ["Logo design", "Color palette", "Font pairing"], outcome: "A solid starting point for your brand", popular: false },
+          { title: "Brand Identity Kit", price: "€120 – €280", target: "A consistent visual identity", features: ["Logo + variations", "Colors + typography", "Simple brand guidelines"], outcome: "A professional, cohesive brand image", popular: true },
+          { title: "Full Brand Identity", price: "€200 – €400", target: "A complete visual system", features: ["Logo system", "Colors & typography", "Brand usage guidelines", "Mockups (social/media)"], outcome: "A strong, recognizable brand presence", popular: false }
+        ]
+      },
+      {
+        title: "Logo Design",
+        description: "Timeless logos that communicate your identity clearly.",
+        offers: [
+          { title: "Simple Logo", price: "€20 – €50", target: "Clean and minimal logo", features: ["1 concept", "1 revision", "High-res files"], outcome: "A simple, effective logo", popular: false },
+          { title: "Logo + Variations", price: "€50 – €120", target: "Flexible logo for different uses", features: ["2–3 concepts", "Variations (icon, horizontal)", "2 revisions"], outcome: "A versatile logo system", popular: true },
+          { title: "Logo Pack", price: "€100 – €180", target: "Complete logo system for your brand", features: ["Multiple concepts", "Full set of variations", "Basic brand styling"], outcome: "Everything you need for your logo", popular: false }
+        ]
+      }
+    ],
+    contactTitle: 'Contact LumoUX',tle: 'Contact LumoUX',
     contactSubtitle1: 'Contact LumoUX UI/UX design studio. Get in touch with me, Gabi Radu, for web design collaborations, branding projects, or freelance UI/UX work.',
     contactSubtitle2: 'Clear, functional, human-centered UI/UX design for startups, SaaS products, and digital founders world wide.',
     contactHomeText1: 'Currently taking on new projects for Summer 2026.',
@@ -110,6 +166,51 @@ export default function SiteContentCMS() {
     const newServices = [...content.servicesList];
     newServices.splice(index, 1);
     setContent({ ...content, servicesList: newServices });
+  };
+
+  const handlePricingCategoryChange = (catIndex: number, field: string, value: any) => {
+    const newCats = [...(content.pricingCategories || [])];
+    newCats[catIndex] = { ...newCats[catIndex], [field]: value };
+    setContent({ ...content, pricingCategories: newCats });
+  };
+
+  const handlePricingOfferChange = (catIndex: number, offerIndex: number, field: string, value: any) => {
+    const newCats = [...(content.pricingCategories || [])];
+    const newOffers = [...newCats[catIndex].offers];
+    newOffers[offerIndex] = { ...newOffers[offerIndex], [field]: value };
+    newCats[catIndex] = { ...newCats[catIndex], offers: newOffers };
+    setContent({ ...content, pricingCategories: newCats });
+  };
+
+  const handlePricingFeatureChange = (catIndex: number, offerIndex: number, featureIndex: number, value: string) => {
+    const newCats = [...(content.pricingCategories || [])];
+    const newOffers = [...newCats[catIndex].offers];
+    const newFeatures = [...newOffers[offerIndex].features];
+    newFeatures[featureIndex] = value;
+    newOffers[offerIndex] = { ...newOffers[offerIndex], features: newFeatures };
+    newCats[catIndex] = { ...newCats[catIndex], offers: newOffers };
+    setContent({ ...content, pricingCategories: newCats });
+  };
+
+  const addPricingFeature = (catIndex: number, offerIndex: number) => {
+    const newCats = [...(content.pricingCategories || [])];
+    const newOffers = [...newCats[catIndex].offers];
+    newOffers[offerIndex] = { 
+      ...newOffers[offerIndex], 
+      features: [...newOffers[offerIndex].features, "New Feature"] 
+    };
+    newCats[catIndex] = { ...newCats[catIndex], offers: newOffers };
+    setContent({ ...content, pricingCategories: newCats });
+  };
+
+  const removePricingFeature = (catIndex: number, offerIndex: number, featureIndex: number) => {
+    const newCats = [...(content.pricingCategories || [])];
+    const newOffers = [...newCats[catIndex].offers];
+    const newFeatures = [...newOffers[offerIndex].features];
+    newFeatures.splice(featureIndex, 1);
+    newOffers[offerIndex] = { ...newOffers[offerIndex], features: newFeatures };
+    newCats[catIndex] = { ...newCats[catIndex], offers: newOffers };
+    setContent({ ...content, pricingCategories: newCats });
   };
 
   if (loading) return <div>Loading site content...</div>;
@@ -257,6 +358,118 @@ export default function SiteContentCMS() {
               rows={3}
               className="w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-white focus:ring-2 focus:ring-purple-500 outline-none resize-y"
             />
+          </div>
+        </div>
+
+        {/* Pricing Categories Section */}
+        <div className="space-y-4">
+          <div className="flex justify-between items-center border-b border-zinc-200 dark:border-zinc-800 pb-2">
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Pricing Categories & Packages</h3>
+          </div>
+          
+          <div className="space-y-6">
+            {content.pricingCategories?.map((category: any, catIndex: number) => (
+              <details key={catIndex} className="p-6 border border-zinc-200 dark:border-zinc-800 rounded-xl bg-zinc-50 dark:bg-zinc-900/50 group">
+                <summary className="font-bold text-lg cursor-pointer outline-none flex justify-between items-center">
+                  {category.title}
+                  <span className="text-sm font-normal text-purple-600 group-open:hidden">Click to edit offers</span>
+                </summary>
+                
+                <div className="mt-6 space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs text-zinc-500 mb-1">Category Title</label>
+                      <input 
+                        type="text" value={category.title} onChange={e => handlePricingCategoryChange(catIndex, 'title', e.target.value)}
+                        className="w-full px-3 py-2 rounded-lg bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-sm outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-zinc-500 mb-1">Category Description</label>
+                      <input 
+                        type="text" value={category.description} onChange={e => handlePricingCategoryChange(catIndex, 'description', e.target.value)}
+                        className="w-full px-3 py-2 rounded-lg bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-sm outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="mt-8 space-y-8">
+                    <h4 className="font-semibold text-md border-b border-zinc-200 dark:border-zinc-800 pb-2">Offers</h4>
+                    {category.offers.map((offer: any, offerIndex: number) => (
+                      <div key={offerIndex} className="p-4 border border-zinc-200 dark:border-zinc-800 rounded-lg bg-white dark:bg-zinc-950">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                          <div>
+                            <label className="block text-xs text-zinc-500 mb-1">Package Title</label>
+                            <input 
+                              type="text" value={offer.title} onChange={e => handlePricingOfferChange(catIndex, offerIndex, 'title', e.target.value)}
+                              className="w-full px-3 py-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-sm outline-none"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-xs text-zinc-500 mb-1">Price</label>
+                            <input 
+                              type="text" value={offer.price} onChange={e => handlePricingOfferChange(catIndex, offerIndex, 'price', e.target.value)}
+                              className="w-full px-3 py-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-sm outline-none"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                          <div>
+                            <label className="block text-xs text-zinc-500 mb-1">Target Audience</label>
+                            <input 
+                              type="text" value={offer.target} onChange={e => handlePricingOfferChange(catIndex, offerIndex, 'target', e.target.value)}
+                              className="w-full px-3 py-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-sm outline-none"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-xs text-zinc-500 mb-1">Outcome</label>
+                            <input 
+                              type="text" value={offer.outcome} onChange={e => handlePricingOfferChange(catIndex, offerIndex, 'outcome', e.target.value)}
+                              className="w-full px-3 py-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-sm outline-none"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="mb-4">
+                          <label className="flex items-center gap-2 text-sm font-medium text-zinc-700 dark:text-zinc-300">
+                            <input 
+                              type="checkbox" 
+                              checked={offer.popular} 
+                              onChange={e => handlePricingOfferChange(catIndex, offerIndex, 'popular', e.target.checked)}
+                              className="rounded border-zinc-300 text-purple-600 focus:ring-purple-500"
+                            />
+                            Highlight as "Most Popular"
+                          </label>
+                        </div>
+
+                        <div className="mt-4 border-t border-zinc-200 dark:border-zinc-800 pt-4">
+                          <div className="flex justify-between items-center mb-2">
+                            <label className="block text-xs font-medium text-zinc-700 dark:text-zinc-300">Features List</label>
+                            <button onClick={() => addPricingFeature(catIndex, offerIndex)} className="text-xs text-purple-600 hover:text-purple-500 flex items-center gap-1">
+                              <Plus size={14} /> Add Feature
+                            </button>
+                          </div>
+                          <div className="space-y-2">
+                            {offer.features.map((feature: string, fIndex: number) => (
+                              <div key={fIndex} className="flex items-center gap-2">
+                                <input 
+                                  type="text" value={feature} onChange={e => handlePricingFeatureChange(catIndex, offerIndex, fIndex, e.target.value)}
+                                  className="flex-grow px-3 py-2 rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-sm outline-none"
+                                />
+                                <button onClick={() => removePricingFeature(catIndex, offerIndex, fIndex)} className="text-zinc-400 hover:text-red-500 p-2">
+                                  <Trash2 size={16} />
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </details>
+            ))}
           </div>
         </div>
 
