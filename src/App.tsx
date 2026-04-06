@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { HelmetProvider } from "react-helmet-async";
 import Layout from "./components/Layout";
 import { ThemeProvider } from "./components/ThemeProvider";
+import CookieBanner from "./components/CookieBanner";
 
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
@@ -12,6 +13,8 @@ const Contact = lazy(() => import("./pages/Contact"));
 const Portfolio = lazy(() => import("./pages/Portfolio"));
 const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
 const Admin = lazy(() => import("./pages/Admin"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const CookiePolicy = lazy(() => import("./pages/CookiePolicy"));
 
 const PageWrapper = ({ children }: { children: React.ReactNode }) => (
   <motion.div
@@ -38,6 +41,8 @@ function AnimatedRoutes() {
           <Route path="portfolio" element={<Suspense fallback={<div className="min-h-screen" />}><PageWrapper><Portfolio /></PageWrapper></Suspense>} />
           <Route path="portfolio/:id" element={<Suspense fallback={<div className="min-h-screen" />}><PageWrapper><ProjectDetail /></PageWrapper></Suspense>} />
           <Route path="admin" element={<Suspense fallback={<div className="min-h-screen" />}><PageWrapper><Admin /></PageWrapper></Suspense>} />
+          <Route path="privacy-policy" element={<Suspense fallback={<div className="min-h-screen" />}><PageWrapper><PrivacyPolicy /></PageWrapper></Suspense>} />
+          <Route path="cookie-policy" element={<Suspense fallback={<div className="min-h-screen" />}><PageWrapper><CookiePolicy /></PageWrapper></Suspense>} />
         </Route>
       </Routes>
     </AnimatePresence>
@@ -50,6 +55,7 @@ function App() {
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <BrowserRouter>
           <AnimatedRoutes />
+          <CookieBanner />
         </BrowserRouter>
       </ThemeProvider>
     </HelmetProvider>

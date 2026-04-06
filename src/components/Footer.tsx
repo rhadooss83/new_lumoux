@@ -6,7 +6,8 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex flex-col md:flex-row items-center gap-6">
           <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <img src="/logo-dot.svg" alt="LumoUX Logo" className="w-5 h-5" />
+            <img src="/logo-dot.svg" alt="LumoUX Logo" className="w-5 h-5 dark:hidden" />
+            <img src="/logo-dot-dark.svg" alt="LumoUX Logo" className="w-5 h-5 hidden dark:block" />
             <span className="text-2xl font-display font-bold tracking-tight text-zinc-900 dark:text-white">LumoUX</span>
           </Link>
           <a href="mailto:rhadooss83@gmail.com" className="text-zinc-500 dark:text-gray-400 hover:text-zinc-900 dark:hover:text-white transition-colors text-sm">
@@ -23,10 +24,14 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 mt-12 text-center md:text-left">
+      <div className="max-w-6xl mx-auto px-4 mt-12 text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-4">
         <p className="text-xs text-zinc-400 dark:text-gray-600">
           © {new Date().getFullYear()} LumoUX Design Studio. All rights reserved.
         </p>
+        <div className="flex items-center gap-6 text-xs text-zinc-400 dark:text-gray-600">
+          <Link to="/privacy-policy" className="hover:text-zinc-900 dark:hover:text-white transition-colors">Privacy Policy</Link>
+          <Link to="/cookie-policy" className="hover:text-zinc-900 dark:hover:text-white transition-colors">Cookie Policy</Link>
+        </div>
       </div>
     </footer>
   );

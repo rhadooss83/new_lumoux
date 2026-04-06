@@ -48,7 +48,8 @@ export default function Navbar() {
         )}
       >
         <Link to="/" className="text-xl font-bold tracking-tight flex items-center gap-2">
-          <img src="/logo-dot.svg" alt="LumoUX Logo" className="w-5 h-5" />
+          <img src="/logo-dot.svg" alt="LumoUX Logo" className="w-5 h-5 dark:hidden" />
+          <img src="/logo-dot-dark.svg" alt="LumoUX Logo" className="w-5 h-5 hidden dark:block" />
           LumoUX
         </Link>
 
