@@ -81,7 +81,7 @@ export default function ProductizedServices({ isHome = false }: { isHome?: boole
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-[85%] md:w-full mx-auto">
             {category.offers.map((offer: any, index: number) => (
               <motion.div
                 key={index}

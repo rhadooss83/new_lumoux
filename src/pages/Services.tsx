@@ -184,7 +184,7 @@ export default function Services() {
         {content.servicesSubtitle}
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 w-full max-w-sm md:max-w-none mx-auto items-start">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 w-[85%] md:w-full max-w-none mx-auto items-start">
         {content.servicesList.map((service: any, index: number) => (
           <ServiceCard key={index} service={service} index={index} isServicesPage={isServicesPage} />
         ))}

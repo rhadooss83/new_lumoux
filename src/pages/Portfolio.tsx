@@ -142,7 +142,7 @@ export default function Portfolio({ isHome = false }: { isHome?: boolean }) {
           No projects found.
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 w-[85%] md:w-full mx-auto">
           {displayProjects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}

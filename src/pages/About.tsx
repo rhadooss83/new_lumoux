@@ -50,7 +50,7 @@ export default function About() {
         Clear, functional, human-centered UI/UX design.
       </p>
 
-      <div className={`flex flex-col ${isAboutPage ? '' : 'md:flex-row'} items-center gap-8 md:gap-12 w-full max-w-4xl`}>
+      <div className={`flex flex-col ${isAboutPage ? '' : 'md:flex-row'} items-center gap-8 md:gap-12 w-[85%] md:w-full max-w-4xl`}>
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
