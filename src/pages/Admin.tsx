@@ -73,9 +73,10 @@ export default function Admin() {
       <div className="min-h-screen pt-32 pb-20 px-4 flex flex-col items-center justify-center">
         <Helmet>
           <title>Admin Login | LumoUX</title>
+          <meta name="description" content="Admin login portal for LumoUX Design Studio." />
         </Helmet>
         <div className="bg-white dark:bg-zinc-950 p-8 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-xl text-center max-w-md w-full">
-          <h1 className="text-2xl font-bold mb-2 text-zinc-900 dark:text-white">Admin Access</h1>
+          <h2 className="text-2xl font-bold mb-2 text-zinc-900 dark:text-white">Admin Access</h2>
           <p className="text-zinc-600 dark:text-zinc-400 mb-8">Please log in to view messages.</p>
           {loginError && (
             <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-sm rounded-xl border border-red-200 dark:border-red-800">
@@ -100,10 +101,11 @@ export default function Admin() {
     <div className="min-h-screen pt-32 pb-20 px-4 w-full max-w-6xl mx-auto">
       <Helmet>
         <title>Admin Dashboard | LumoUX</title>
+        <meta name="description" content="Admin dashboard for managing LumoUX Design Studio content and messages." />
       </Helmet>
       
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-        <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Admin Dashboard</h1>
+        <h2 className="text-3xl font-bold text-zinc-900 dark:text-white">Admin Dashboard</h2>
         <button
           onClick={handleLogout}
           className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
