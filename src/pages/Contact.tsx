@@ -4,8 +4,10 @@ import { useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { collection, addDoc, serverTimestamp, doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import DOMPurify from "dompurify";
+import { GoogleReCaptchaProvider, useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
-export default function Contact() {
+function ContactFormContent() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const initialService = searchParams.get("service") || "";
@@ -13,6 +15,21 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  
+  const { executeRecaptcha } = useGoogleReCaptcha();
+
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    place: "",
+    service: initialService,
+    message: "",
+    gdpr: false
+  });
+
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
 
   const [content, setContent] = useState<any>({
     contactTitle: 'Contact LumoUX',
@@ -44,26 +61,110 @@ export default function Contact() {
     fetchContent();
   }, []);
 
+  const validateField = (name: string, value: string | boolean) => {
+    let errorMsg = "";
+    if (name === "name" && !value) {
+      errorMsg = "Could you please tell me your name?";
+    }
+    if (name === "email") {
+      if (!value) {
+        errorMsg = "I'll need your email to get back to you!";
+      } else if (typeof value === "string" && !value.includes("@")) {
+        errorMsg = "Oops, looks like you missed the '@' in your email address.";
+      } else if (typeof value === "string" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+        errorMsg = "This email format looks a bit off. Could you double-check it?";
+      }
+    }
+    if (name === "phone" && !value) {
+      errorMsg = "A phone number helps me reach you faster.";
+    }
+    if (name === "place" && !value) {
+      errorMsg = "Could you let me know where you're located?";
+    }
+    if (name === "service" && !value) {
+      errorMsg = "Please specify the service you're interested in.";
+    }
+    if (name === "message") {
+      if (!value) {
+        errorMsg = "Please add a short message so I know how to help!";
+      } else if (typeof value === "string" && value.length < 10) {
+        errorMsg = "Could you provide a bit more detail? (At least 10 characters)";
+      }
+    }
+    if (name === "gdpr" && !value) {
+      errorMsg = "Please agree to the privacy policy to continue.";
+    }
+    return errorMsg;
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target;
+    const val = type === "checkbox" ? (e.target as HTMLInputElement).checked : value;
+    
+    setTouched(prev => ({ ...prev, [name]: true }));
+    const errorMsg = validateField(name, val);
+    setErrors(prev => ({ ...prev, [name]: errorMsg }));
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target;
+    const val = type === "checkbox" ? (e.target as HTMLInputElement).checked : value;
+    
+    setFormData(prev => ({ ...prev, [name]: val }));
+    
+    if (touched[name]) {
+      const errorMsg = validateField(name, val);
+      setErrors(prev => ({ ...prev, [name]: errorMsg }));
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    // Validate all fields before submission
+    const newErrors: Record<string, string> = {};
+    let isValid = true;
+    Object.keys(formData).forEach(key => {
+      const errorMsg = validateField(key, formData[key as keyof typeof formData]);
+      if (errorMsg) {
+        newErrors[key] = errorMsg;
+        isValid = false;
+      }
+      setTouched(prev => ({ ...prev, [key]: true }));
+    });
+    
+    setErrors(newErrors);
+    
+    if (!isValid) return;
+
     setIsSubmitting(true);
     setError(null);
 
-    const formData = new FormData(e.currentTarget);
-    const data = {
-      name: formData.get("name") as string,
-      phone: formData.get("phone") as string,
-      email: formData.get("email") as string,
-      place: formData.get("place") as string,
-      service: formData.get("service") as string,
-      message: formData.get("message") as string,
-      createdAt: serverTimestamp(),
-    };
-
     try {
-      await addDoc(collection(db, "messages"), data);
+      let recaptchaToken = "mock_token";
+      if (executeRecaptcha) {
+        recaptchaToken = await executeRecaptcha("contact_form");
+      }
+
+      // Backend validation & sanitization simulation
+      // Stripping out malicious code (XSS) before saving to Firestore
+      const sanitizedData = {
+        name: DOMPurify.sanitize(formData.name),
+        phone: DOMPurify.sanitize(formData.phone),
+        email: DOMPurify.sanitize(formData.email),
+        place: DOMPurify.sanitize(formData.place),
+        service: DOMPurify.sanitize(formData.service),
+        message: DOMPurify.sanitize(formData.message),
+        recaptchaToken,
+        createdAt: serverTimestamp(),
+      };
+
+      await addDoc(collection(db, "messages"), sanitizedData);
       setIsSubmitted(true);
-      (e.target as HTMLFormElement).reset();
+      setFormData({
+        name: "", phone: "", email: "", place: "", service: initialService, message: "", gdpr: false
+      });
+      setTouched({});
       // Reset success message after 5 seconds
       setTimeout(() => setIsSubmitted(false), 5000);
     } catch (err) {
@@ -139,7 +240,7 @@ export default function Contact() {
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full">
+          <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-6 w-full">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="flex flex-col gap-2">
                 <label htmlFor="name" className="text-sm font-medium text-zinc-600 dark:text-gray-400">Name</label>
@@ -147,10 +248,13 @@ export default function Contact() {
                   type="text"
                   id="name"
                   name="name"
-                  required
-                  className="bg-zinc-100 dark:bg-zinc-900/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:border-purple-500 transition-colors"
+                  value={formData.name}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={`bg-zinc-100 dark:bg-zinc-900/50 border ${errors.name ? 'border-red-500' : 'border-zinc-200 dark:border-white/10'} rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:border-purple-500 transition-colors`}
                   placeholder="John Doe"
                 />
+                {errors.name && <span className="text-xs text-red-500">{errors.name}</span>}
               </div>
               <div className="flex flex-col gap-2">
                 <label htmlFor="phone" className="text-sm font-medium text-zinc-600 dark:text-gray-400">Phone</label>
@@ -158,10 +262,13 @@ export default function Contact() {
                   type="tel"
                   id="phone"
                   name="phone"
-                  required
-                  className="bg-zinc-100 dark:bg-zinc-900/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:border-purple-500 transition-colors"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={`bg-zinc-100 dark:bg-zinc-900/50 border ${errors.phone ? 'border-red-500' : 'border-zinc-200 dark:border-white/10'} rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:border-purple-500 transition-colors`}
                   placeholder="+1 (555) 000-0000"
                 />
+                {errors.phone && <span className="text-xs text-red-500">{errors.phone}</span>}
               </div>
             </div>
 
@@ -172,10 +279,13 @@ export default function Contact() {
                   type="email"
                   id="email"
                   name="email"
-                  required
-                  className="bg-zinc-100 dark:bg-zinc-900/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:border-purple-500 transition-colors"
+                  value={formData.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={`bg-zinc-100 dark:bg-zinc-900/50 border ${errors.email ? 'border-red-500' : 'border-zinc-200 dark:border-white/10'} rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:border-purple-500 transition-colors`}
                   placeholder="john@example.com"
                 />
+                {errors.email && <span className="text-xs text-red-500">{errors.email}</span>}
               </div>
               <div className="flex flex-col gap-2">
                 <label htmlFor="place" className="text-sm font-medium text-zinc-600 dark:text-gray-400">Place</label>
@@ -183,10 +293,13 @@ export default function Contact() {
                   type="text"
                   id="place"
                   name="place"
-                  required
-                  className="bg-zinc-100 dark:bg-zinc-900/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:border-purple-500 transition-colors"
+                  value={formData.place}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={`bg-zinc-100 dark:bg-zinc-900/50 border ${errors.place ? 'border-red-500' : 'border-zinc-200 dark:border-white/10'} rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:border-purple-500 transition-colors`}
                   placeholder="City, Country"
                 />
+                {errors.place && <span className="text-xs text-red-500">{errors.place}</span>}
               </div>
             </div>
 
@@ -196,11 +309,13 @@ export default function Contact() {
                 type="text"
                 id="service"
                 name="service"
-                required
-                defaultValue={initialService}
-                className="bg-zinc-100 dark:bg-zinc-900/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:border-purple-500 transition-colors"
+                value={formData.service}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className={`bg-zinc-100 dark:bg-zinc-900/50 border ${errors.service ? 'border-red-500' : 'border-zinc-200 dark:border-white/10'} rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:border-purple-500 transition-colors`}
                 placeholder="e.g. UI/UX Design, Starter Website"
               />
+              {errors.service && <span className="text-xs text-red-500">{errors.service}</span>}
             </div>
 
             <div className="flex flex-col gap-2">
@@ -208,24 +323,32 @@ export default function Contact() {
               <textarea
                 id="message"
                 name="message"
-                required
                 rows={4}
-                className="bg-zinc-100 dark:bg-zinc-900/50 border border-zinc-200 dark:border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:border-purple-500 transition-colors resize-y"
+                value={formData.message}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className={`bg-zinc-100 dark:bg-zinc-900/50 border ${errors.message ? 'border-red-500' : 'border-zinc-200 dark:border-white/10'} rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:border-purple-500 transition-colors resize-y`}
                 placeholder="Tell me about your project..."
               />
+              {errors.message && <span className="text-xs text-red-500">{errors.message}</span>}
             </div>
 
-            <div className="flex items-start gap-3 mt-2">
-              <input
-                type="checkbox"
-                id="gdpr"
-                name="gdpr"
-                required
-                className="mt-1 w-4 h-4 rounded border-zinc-300 text-purple-600 focus:ring-purple-500"
-              />
-              <label htmlFor="gdpr" className="text-sm text-zinc-600 dark:text-gray-400 leading-relaxed">
-                I agree to the processing of my personal data according to the Privacy Policy.
-              </label>
+            <div className="flex flex-col gap-1 mt-2">
+              <div className="flex items-start gap-3">
+                <input
+                  type="checkbox"
+                  id="gdpr"
+                  name="gdpr"
+                  checked={formData.gdpr}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className="mt-1 w-4 h-4 rounded border-zinc-300 text-purple-600 focus:ring-purple-500"
+                />
+                <label htmlFor="gdpr" className="text-sm text-zinc-600 dark:text-gray-400 leading-relaxed">
+                  I agree to the processing of my personal data according to the Privacy Policy.
+                </label>
+              </div>
+              {errors.gdpr && <span className="text-xs text-red-500 ml-7">{errors.gdpr}</span>}
             </div>
 
             <div className="mt-4 flex flex-col items-center md:items-start gap-4">
@@ -246,5 +369,13 @@ export default function Contact() {
         </div>
       </motion.div>
     </div>
+  );
+}
+
+export default function Contact() {
+  return (
+    <GoogleReCaptchaProvider reCaptchaKey={import.meta.env.VITE_RECAPTCHA_SITE_KEY || "6LceAQYpAAAAABxO2jL3X2w8n-9E8n-9E8n-9E8n"}>
+      <ContactFormContent />
+    </GoogleReCaptchaProvider>
   );
 }

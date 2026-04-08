@@ -6,5 +6,7 @@ At this point, the application has the following state:
 - The cards have fixed heights so they are perfectly even.
 - The cards expand smoothly one at a time on hover on the Services page.
 - The "This is for you if:" list on the Services page includes the 4 original points (points 5 and 6 removed).
+- Mobile spacing: Cards on Services, Portfolio, and About pages are set to 85% width on mobile to provide side spacing.
+- Saved "Gabi's Benefits" list in /AGENTS.md as persistent instructions for the AI agent.
 
 If anything goes wrong in the future, we can revert the codebase back to this exact state.
