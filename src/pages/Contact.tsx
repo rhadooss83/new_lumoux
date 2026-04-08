@@ -63,32 +63,60 @@ function ContactFormContent() {
 
   const validateField = (name: string, value: string | boolean) => {
     let errorMsg = "";
-    if (name === "name" && !value) {
-      errorMsg = "Could you please tell me your name?";
-    }
-    if (name === "email") {
-      if (!value) {
-        errorMsg = "I'll need your email to get back to you!";
-      } else if (typeof value === "string" && !value.includes("@")) {
-        errorMsg = "Oops, looks like you missed the '@' in your email address.";
-      } else if (typeof value === "string" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-        errorMsg = "This email format looks a bit off. Could you double-check it?";
+    const strValue = typeof value === "string" ? value.trim() : "";
+
+    if (name === "name") {
+      if (!strValue) {
+        errorMsg = "Could you please tell me your name?";
+      } else if (strValue.length < 2 || strValue.length > 100) {
+        errorMsg = "Name should be between 2 and 100 characters.";
+      } else if (!/^[\p{L}\s'’\-]+$/u.test(strValue)) {
+        errorMsg = "Name contains invalid characters. Please use only letters, spaces, and hyphens.";
       }
     }
-    if (name === "phone" && !value) {
-      errorMsg = "A phone number helps me reach you faster.";
+    if (name === "email") {
+      if (!strValue) {
+        errorMsg = "I'll need your email to get back to you!";
+      } else if (!strValue.includes("@")) {
+        errorMsg = "Oops, looks like you missed the '@' in your email address.";
+      } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(strValue)) {
+        errorMsg = "This email format looks a bit off. Could you double-check it?";
+      } else if (strValue.length > 150) {
+        errorMsg = "Email address is too long.";
+      }
     }
-    if (name === "place" && !value) {
-      errorMsg = "Could you let me know where you're located?";
+    if (name === "phone") {
+      if (!strValue) {
+        errorMsg = "A phone number helps me reach you faster.";
+      } else if (!/^[\d\s\+\-\(\)]{7,25}$/.test(strValue)) {
+        errorMsg = "Please enter a valid phone number (e.g., +1 555-000-0000).";
+      }
     }
-    if (name === "service" && !value) {
-      errorMsg = "Please specify the service you're interested in.";
+    if (name === "place") {
+      if (!strValue) {
+        errorMsg = "Could you let me know where you're located?";
+      } else if (strValue.length < 2 || strValue.length > 100) {
+        errorMsg = "Place should be between 2 and 100 characters.";
+      } else if (!/^[\p{L}\d\s,.'\-]+$/u.test(strValue)) {
+        errorMsg = "Place contains invalid characters.";
+      }
+    }
+    if (name === "service") {
+      if (!strValue) {
+        errorMsg = "Please specify the service you're interested in.";
+      } else if (strValue.length > 100) {
+        errorMsg = "Service description is too long (max 100 characters).";
+      } else if (!/^[\p{L}\d\s,.'/\-]+$/u.test(strValue)) {
+        errorMsg = "Service contains invalid characters.";
+      }
     }
     if (name === "message") {
-      if (!value) {
+      if (!strValue) {
         errorMsg = "Please add a short message so I know how to help!";
-      } else if (typeof value === "string" && value.length < 10) {
+      } else if (strValue.length < 10) {
         errorMsg = "Could you provide a bit more detail? (At least 10 characters)";
+      } else if (strValue.length > 3000) {
+        errorMsg = "Your message is a bit too long. Could you summarize it? (Max 3000 characters)";
       }
     }
     if (name === "gdpr" && !value) {
@@ -149,12 +177,12 @@ function ContactFormContent() {
       // Backend validation & sanitization simulation
       // Stripping out malicious code (XSS) before saving to Firestore
       const sanitizedData = {
-        name: DOMPurify.sanitize(formData.name),
-        phone: DOMPurify.sanitize(formData.phone),
-        email: DOMPurify.sanitize(formData.email),
-        place: DOMPurify.sanitize(formData.place),
-        service: DOMPurify.sanitize(formData.service),
-        message: DOMPurify.sanitize(formData.message),
+        name: DOMPurify.sanitize(formData.name.trim()),
+        phone: DOMPurify.sanitize(formData.phone.trim()),
+        email: DOMPurify.sanitize(formData.email.trim()),
+        place: DOMPurify.sanitize(formData.place.trim()),
+        service: DOMPurify.sanitize(formData.service.trim()),
+        message: DOMPurify.sanitize(formData.message.trim()),
         recaptchaToken,
         createdAt: serverTimestamp(),
       };
