@@ -169,6 +169,18 @@ function ContactFormContent() {
     setError(null);
 
     try {
+      // Client-side rate limiting (Limit API usage)
+      const lastSubmission = localStorage.getItem("lastContactSubmission");
+      if (lastSubmission) {
+        const timeSinceLast = Date.now() - parseInt(lastSubmission, 10);
+        // 5 minutes cooldown
+        if (timeSinceLast < 5 * 60 * 1000) {
+          setError("You've already sent a message recently. Please wait a few minutes before sending another.");
+          setIsSubmitting(false);
+          return;
+        }
+      }
+
       let recaptchaToken = "mock_token";
       if (executeRecaptcha) {
         recaptchaToken = await executeRecaptcha("contact_form");
@@ -188,6 +200,10 @@ function ContactFormContent() {
       };
 
       await addDoc(collection(db, "messages"), sanitizedData);
+      
+      // Save submission time for rate limiting
+      localStorage.setItem("lastContactSubmission", Date.now().toString());
+      
       setIsSubmitted(true);
       setFormData({
         name: "", phone: "", email: "", place: "", service: initialService, message: "", gdpr: false
@@ -196,8 +212,8 @@ function ContactFormContent() {
       // Reset success message after 5 seconds
       setTimeout(() => setIsSubmitted(false), 5000);
     } catch (err) {
-      console.error("Error submitting form:", err);
-      setError("Something went wrong. Please try again or contact via WhatsApp.");
+      // Error handling - Don't expose internal errors to the console
+      setError("Something went wrong securely processing your request. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }
