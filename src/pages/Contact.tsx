@@ -36,7 +36,8 @@ function ContactFormContent() {
     contactSubtitle1: 'Contact LumoUX UI/UX design studio. Get in touch with me, Gabi Radu, for web design collaborations, branding projects, or freelance UI/UX work.',
     contactSubtitle2: 'Clear, functional, human-centered UI/UX design for startups, SaaS products, and digital founders world wide.',
     contactHomeText1: 'Currently taking on new projects for Summer 2026.',
-    contactHomeText2: 'Design-only studio — I partner with web developers to deliver production-ready Figma files and design handoffs. Let\'s create something extraordinary together!'
+    contactHomeText2: 'Design-only studio — I partner with web developers to deliver production-ready Figma files and design handoffs. Let\'s create something extraordinary together!',
+    showBottomCTA: true
   });
 
   useEffect(() => {
@@ -51,7 +52,8 @@ function ContactFormContent() {
             contactSubtitle1: data.contactSubtitle1 || content.contactSubtitle1,
             contactSubtitle2: data.contactSubtitle2 || content.contactSubtitle2,
             contactHomeText1: data.contactHomeText1 || content.contactHomeText1,
-            contactHomeText2: data.contactHomeText2 || content.contactHomeText2
+            contactHomeText2: data.contactHomeText2 || content.contactHomeText2,
+            showBottomCTA: data.showBottomCTA !== undefined ? data.showBottomCTA : true
           });
         }
       } catch (error) {
@@ -220,6 +222,8 @@ function ContactFormContent() {
   };
 
   if (!isContactPage) {
+    if (!content.showBottomCTA) return null;
+    
     return (
       <div className="w-full max-w-5xl mx-auto px-4 py-32 flex flex-col items-center text-center">
         <motion.div

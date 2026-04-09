@@ -95,7 +95,14 @@ export default function SiteContentCMS() {
     contactSubtitle1: 'Contact LumoUX UI/UX design studio. Get in touch with me, Gabi Radu, for web design collaborations, branding projects, or freelance UI/UX work.',
     contactSubtitle2: 'Clear, functional, human-centered UI/UX design for startups, SaaS products, and digital founders world wide.',
     contactHomeText1: 'Currently taking on new projects for Summer 2026.',
-    contactHomeText2: 'Design-only studio — I partner with web developers to deliver production-ready Figma files and design handoffs. Let\'s create something extraordinary together!'
+    contactHomeText2: 'Design-only studio — I partner with web developers to deliver production-ready Figma files and design handoffs. Let\'s create something extraordinary together!',
+    showHero: true,
+    showHeroCTA: true,
+    showPortfolio: true,
+    showServices: true,
+    showAbout: true,
+    showContact: true,
+    showBottomCTA: true
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -231,6 +238,43 @@ export default function SiteContentCMS() {
 
       <div className="space-y-12">
         
+        {/* Visibility Settings */}
+        <div className="space-y-4 bg-zinc-50 dark:bg-zinc-900/50 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800">
+          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white border-b border-zinc-200 dark:border-zinc-800 pb-2">Section Visibility</h3>
+          <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-4">Toggle which sections are visible on the live website.</p>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <label className="flex items-center gap-3 p-3 bg-white dark:bg-zinc-950 rounded-xl border border-zinc-200 dark:border-zinc-800 cursor-pointer hover:border-purple-500 transition-colors">
+              <input type="checkbox" checked={content.showHero !== false} onChange={e => setContent({...content, showHero: e.target.checked})} className="w-5 h-5 rounded border-zinc-300 text-purple-600 focus:ring-purple-500" />
+              <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Hero Section</span>
+            </label>
+            <label className="flex items-center gap-3 p-3 bg-white dark:bg-zinc-950 rounded-xl border border-zinc-200 dark:border-zinc-800 cursor-pointer hover:border-purple-500 transition-colors">
+              <input type="checkbox" checked={content.showHeroCTA !== false} onChange={e => setContent({...content, showHeroCTA: e.target.checked})} className="w-5 h-5 rounded border-zinc-300 text-purple-600 focus:ring-purple-500" />
+              <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Hero CTA Buttons</span>
+            </label>
+            <label className="flex items-center gap-3 p-3 bg-white dark:bg-zinc-950 rounded-xl border border-zinc-200 dark:border-zinc-800 cursor-pointer hover:border-purple-500 transition-colors">
+              <input type="checkbox" checked={content.showPortfolio !== false} onChange={e => setContent({...content, showPortfolio: e.target.checked})} className="w-5 h-5 rounded border-zinc-300 text-purple-600 focus:ring-purple-500" />
+              <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Portfolio Section</span>
+            </label>
+            <label className="flex items-center gap-3 p-3 bg-white dark:bg-zinc-950 rounded-xl border border-zinc-200 dark:border-zinc-800 cursor-pointer hover:border-purple-500 transition-colors">
+              <input type="checkbox" checked={content.showServices !== false} onChange={e => setContent({...content, showServices: e.target.checked})} className="w-5 h-5 rounded border-zinc-300 text-purple-600 focus:ring-purple-500" />
+              <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Services Section</span>
+            </label>
+            <label className="flex items-center gap-3 p-3 bg-white dark:bg-zinc-950 rounded-xl border border-zinc-200 dark:border-zinc-800 cursor-pointer hover:border-purple-500 transition-colors">
+              <input type="checkbox" checked={content.showAbout !== false} onChange={e => setContent({...content, showAbout: e.target.checked})} className="w-5 h-5 rounded border-zinc-300 text-purple-600 focus:ring-purple-500" />
+              <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">About Section</span>
+            </label>
+            <label className="flex items-center gap-3 p-3 bg-white dark:bg-zinc-950 rounded-xl border border-zinc-200 dark:border-zinc-800 cursor-pointer hover:border-purple-500 transition-colors">
+              <input type="checkbox" checked={content.showContact !== false} onChange={e => setContent({...content, showContact: e.target.checked})} className="w-5 h-5 rounded border-zinc-300 text-purple-600 focus:ring-purple-500" />
+              <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Contact Form Section</span>
+            </label>
+            <label className="flex items-center gap-3 p-3 bg-white dark:bg-zinc-950 rounded-xl border border-zinc-200 dark:border-zinc-800 cursor-pointer hover:border-purple-500 transition-colors">
+              <input type="checkbox" checked={content.showBottomCTA !== false} onChange={e => setContent({...content, showBottomCTA: e.target.checked})} className="w-5 h-5 rounded border-zinc-300 text-purple-600 focus:ring-purple-500" />
+              <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Bottom CTA (Clarity)</span>
+            </label>
+          </div>
+        </div>
+
         {/* Hero Section */}
         <div className="space-y-4">
           <h3 className="text-lg font-semibold text-zinc-900 dark:text-white border-b border-zinc-200 dark:border-zinc-800 pb-2">Home / Hero Section</h3>

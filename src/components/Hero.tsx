@@ -12,7 +12,8 @@ export default function Hero() {
 
   const [content, setContent] = useState<any>({
     heroTitle: 'Websites that turn visitors into customers',
-    heroSubtitle: 'I help startups and small brands build clean, modern websites that actually bring results — without the high agency cost.'
+    heroSubtitle: 'I help startups and small brands build clean, modern websites that actually bring results — without the high agency cost.',
+    showHeroCTA: true
   });
 
   useEffect(() => {
@@ -22,12 +23,10 @@ export default function Hero() {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           const data = docSnap.data();
-          // We are temporarily ignoring data.heroTitle and data.heroSubtitle 
-          // from Firebase so the new audit text shows up for the user.
-          // The user can update this in their CMS later.
           setContent({
-            heroTitle: content.heroTitle, 
-            heroSubtitle: content.heroSubtitle
+            heroTitle: data.heroTitle || content.heroTitle, 
+            heroSubtitle: data.heroSubtitle || content.heroSubtitle,
+            showHeroCTA: data.showHeroCTA !== undefined ? data.showHeroCTA : true
           });
         }
       } catch (error) {
@@ -68,36 +67,38 @@ export default function Hero() {
         </p>
       </motion.div>
 
-      <motion.div
-        style={{ y: y2, opacity }}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="relative z-10 flex flex-col items-center w-full max-w-md mx-auto"
-      >
-        <div className="flex flex-col sm:flex-row gap-4 w-full justify-center mb-4">
-          <Link
-            to="/contact"
-            className="w-full sm:w-auto px-8 py-4 rounded-full text-base font-bold text-white bg-purple-600 hover:bg-purple-500 shadow-[0_0_30px_rgba(147,51,234,0.5)] hover:shadow-[0_0_40px_rgba(147,51,234,0.7)] hover:scale-105 transition-all duration-300 text-center"
-          >
-            👉 Get your free website audit
-          </Link>
-          <Link
-            to="/portfolio"
-            className="w-full sm:w-auto px-8 py-4 rounded-full text-base font-bold text-zinc-700 dark:text-zinc-300 bg-white dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-white transition-all duration-300 shadow-sm text-center"
-          >
-            View Portfolio
-          </Link>
-        </div>
-        
-        <div className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400 font-medium">
-          <span>Free</span>
-          <span className="w-1 h-1 rounded-full bg-zinc-300 dark:bg-zinc-600"></span>
-          <span>No commitment</span>
-          <span className="w-1 h-1 rounded-full bg-zinc-300 dark:bg-zinc-600"></span>
-          <span>Quick feedback</span>
-        </div>
-      </motion.div>
+      {content.showHeroCTA && (
+        <motion.div
+          style={{ y: y2, opacity }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="relative z-10 flex flex-col items-center w-full max-w-md mx-auto"
+        >
+          <div className="flex flex-col sm:flex-row gap-4 w-full justify-center mb-4">
+            <Link
+              to="/contact"
+              className="w-full sm:w-auto px-8 py-4 rounded-full text-base font-bold text-white bg-purple-600 hover:bg-purple-500 shadow-[0_0_30px_rgba(147,51,234,0.5)] hover:shadow-[0_0_40px_rgba(147,51,234,0.7)] hover:scale-105 transition-all duration-300 text-center"
+            >
+              👉 Get your free website audit
+            </Link>
+            <Link
+              to="/portfolio"
+              className="w-full sm:w-auto px-8 py-4 rounded-full text-base font-bold text-zinc-700 dark:text-zinc-300 bg-white dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-white transition-all duration-300 shadow-sm text-center"
+            >
+              View Portfolio
+            </Link>
+          </div>
+          
+          <div className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400 font-medium">
+            <span>Free</span>
+            <span className="w-1 h-1 rounded-full bg-zinc-300 dark:bg-zinc-600"></span>
+            <span>No commitment</span>
+            <span className="w-1 h-1 rounded-full bg-zinc-300 dark:bg-zinc-600"></span>
+            <span>Quick feedback</span>
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 }
